@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heartful — Meditate Inside of Masterpieces</title>
+<meta name="description" content="Heartful pairs guided meditations with the world's greatest paintings. Coming soon to the App Store.">
+<meta property="og:title" content="Heartful — Meditate Inside of Masterpieces">
+<meta property="og:description" content="Guided meditations inside the world's greatest paintings. Coming soon to the App Store.">
+<meta property="og:image" content="assets/wheatfield.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #EFEBE1;
+    --ink: #1c1a17;
+    --muted: #6f6a61;
+    --serif: 'Marcellus', 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--cream); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.6; }
+
+  h1, h2, .display { font-family: var(--serif); font-weight: 400; letter-spacing: 0.06em; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px;
+    background: color-mix(in srgb, var(--cream) 88%, transparent);
+    backdrop-filter: blur(10px);
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); }
+  .brand span { font-family: var(--sans); font-weight: 600; letter-spacing: 0.18em; font-size: 13px; }
+  .chip {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
+    padding: 8px 16px; border: 1px solid var(--ink); border-radius: 999px;
+    color: var(--ink); white-space: nowrap;
+  }
+
+  /* ---------- logo mark (isometric frame) ---------- */
+  .mark { width: 26px; height: 26px; flex: 0 0 auto; }
+
+  /* ---------- hero ---------- */
+  header {
+    position: relative; height: 100svh; min-height: 560px;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    overflow: hidden; color: #fff;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 2.2s ease;
+    transform: scale(1);
+  }
+  .slide.on { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    .slide.on { animation: drift 14s ease-out forwards; }
+    @keyframes drift { from { transform: scale(1); } to { transform: scale(1.045); } }
+  }
+  .slide::after { content: ''; position: absolute; inset: 0; background: rgba(20,16,10,0.28); }
+  .hero-inner { position: relative; z-index: 2; padding: 0 24px; max-width: 900px; }
+  .overline {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.34em; margin-bottom: 26px;
+    text-shadow: 0 1px 12px rgba(0,0,0,0.35);
+  }
+  .tagline {
+    font-size: clamp(30px, 5.2vw, 58px); line-height: 1.16; text-transform: uppercase;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+    min-height: 2.4em;
+    opacity: 1; transition: opacity 1.1s ease;
+  }
+  .tagline.fading { opacity: 0; }
+  .hero-sub {
+    margin-top: 26px; font-size: 15px; color: rgba(255,255,255,0.92);
+    text-shadow: 0 1px 10px rgba(0,0,0,0.4);
+  }
+  .pill {
+    display: inline-block; margin-top: 34px;
+    font-size: 12px; font-weight: 600; letter-spacing: 0.24em;
+    padding: 15px 30px; border-radius: 999px;
+    background: rgba(15,13,10,0.85); color: #fff;
+    border: 1px solid rgba(255,255,255,0.25);
+  }
+  .credit {
+    position: absolute; left: 24px; bottom: 18px; z-index: 2;
+    font-size: 10px; letter-spacing: 0.06em; color: rgba(255,255,255,0.55);
+  }
+
+  /* ---------- shared section shell ---------- */
+  section { padding: 110px 32px; }
+  .wrap { max-width: 1060px; margin: 0 auto; }
+  .label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.28em; color: var(--ink);
+    margin-bottom: 64px;
+  }
+  h2 { font-size: clamp(24px, 3.4vw, 38px); text-transform: uppercase; line-height: 1.3; }
+
+  /* ---------- value props ---------- */
+  .props { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; }
+  .props h3 {
+    font-family: var(--serif); font-weight: 400; font-size: 18px;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .props p { color: var(--muted); font-size: 14px; }
+  @media (max-width: 760px) { .props { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* ---------- full-bleed heal ---------- */
+  .heal {
+    position: relative; padding: 0; height: 78svh; min-height: 480px;
+    background: url('assets/cliffwalk.jpg') center 35% / cover no-repeat;
+    display: flex; align-items: flex-end; color: #fff;
+  }
+  .heal::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(20,16,10,0.55), rgba(20,16,10,0.05) 55%); }
+  .heal .inner { position: relative; z-index: 2; padding: 56px 32px; max-width: 1060px; margin: 0 auto; width: 100%; }
+  .heal h2 { font-size: clamp(30px, 4.6vw, 52px); text-shadow: 0 2px 20px rgba(0,0,0,0.4); }
+  .heal p { margin-top: 12px; color: rgba(255,255,255,0.9); font-size: 14px; }
+
+  /* ---------- story ---------- */
+  .quote {
+    font-family: var(--serif); font-size: clamp(20px, 2.8vw, 30px);
+    line-height: 1.5; max-width: 720px; margin: 0 auto;
+  }
+  .attr { margin-top: 24px; font-size: 12px; color: var(--muted); letter-spacing: 0.08em; }
+  .story-body { max-width: 560px; margin: 72px auto 0; color: var(--muted); font-size: 14px; }
+
+  /* ---------- final ---------- */
+  .final { text-align: center; padding: 140px 32px 120px; }
+  .final h2 { font-size: clamp(26px, 3.8vw, 44px); }
+  .final p { margin-top: 16px; color: var(--muted); }
+  .final .pill { background: var(--ink); border-color: var(--ink); }
+  footer {
+    padding: 32px; text-align: center;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.06em;
+  }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="brand" href="#">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+      <polygon points="0,0 40,0 32,8 8,8" fill="#D99A4E"/>
+      <polygon points="40,0 40,40 32,32 32,8" fill="#C4823C"/>
+      <polygon points="0,40 8,32 32,32 40,40" fill="#8E86A8"/>
+      <polygon points="0,0 8,8 8,32 0,40" fill="#E5B06A"/>
+      <rect x="8" y="8" width="24" height="24" fill="#C42B35"/>
+    </svg>
+    <span>HEARTFUL</span>
+  </a>
+  <div class="chip">COMING SOON</div>
+</nav>
+
+<header>
+  <div class="slide on" style="background-image:url('assets/wheatfield.jpg')"></div>
+  <div class="slide" style="background-image:url('assets/wave.jpg')"></div>
+  <div class="slide" style="background-image:url('assets/jatte.jpg')"></div>
+  <div class="slide" style="background-image:url('assets/floral.jpg')"></div>
+  <div class="hero-inner">
+    <div class="overline">COMING SOON TO THE APP STORE</div>
+    <h1 class="tagline" id="tagline">Meditate Inside of Masterpieces</h1>
+    <p class="hero-sub">Guided meditations inside the world&rsquo;s greatest paintings.</p>
+    <div class="pill">[ COMING SOON ]</div>
+  </div>
+  <div class="credit" id="credit">Vincent van Gogh, Wheat Field with Cypresses (1889) &middot; The Met &middot; Public Domain</div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="label">THE JOURNEY</div>
+    <div class="props">
+      <div>
+        <h3>Step Inside the Canvas</h3>
+        <p>Immersive guided meditations happen inside famous paintings&mdash;where the brushstrokes, light, and mood become your sanctuary.</p>
+      </div>
+      <div>
+        <h3>Unlock the Artwork</h3>
+        <p>Short art primers reveal hidden details, symbols, and stories before you meditate&mdash;so you see more than just a painting.</p>
+      </div>
+      <div>
+        <h3>Feel the Difference</h3>
+        <p>Cultural engagement measurably heals the body and rejuvenates the nervous system&mdash;wellness that goes beyond anxiety relief.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="heal">
+  <div class="inner">
+    <h2>Art Has the<br>Power to Heal</h2>
+    <p>Heartful is on its way. Your journey through art and stillness begins soon.</p>
+  </div>
+</div>
+
+<section style="text-align:center">
+  <div class="wrap">
+    <div class="label" style="text-align:left">THE FOUNDING STORY</div>
+    <p class="quote">&ldquo;I stood there for ten minutes. From the colours I could smell the hot and dry air. I walked out feeling like I had just come back from the South of France.&rdquo;</p>
+    <div class="attr">&mdash; FOUNDER OF HEARTFUL</div>
+    <p class="story-body">A few years ago, at the Courtauld Institute of Art in London, our founder stood before Monet&rsquo;s Antibes (1888). In the middle of a hard winter, the painting transported her entirely. She realised that this power &mdash; to heal, to nourish, to move &mdash; had only been available to her because of years of art training. Heartful exists to unlock that for everyone.</p>
+  </div>
+</section>
+
+<div class="final">
+  <h2 class="display">Your Next Meditation<br>is a Masterpiece.</h2>
+  <p>Heartful is coming soon to the App&nbsp;Store.</p>
+  <div class="pill">[ COMING SOON ]</div>
+</div>
+
+<footer>
+  &copy; 2026 HEARTFUL. All rights reserved. &middot; <a href="mailto:info@heartful.art">Contact</a> &middot; <a href="privacy.html">Privacy Policy</a><br>
+  Artworks are in the public domain (CC0) &middot; The Metropolitan Museum of Art &middot; Wikimedia Commons
+</footer>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const taglineEl = document.getElementById('tagline');
+  const creditEl = document.getElementById('credit');
+  const taglines = [
+    'Meditate Inside of Masterpieces',
+    'Experience the Sensations',
+    'Go Beyond Mindfulness',
+    'Into a Deeper Heartfulness',
+  ];
+  const credits = [
+    'Vincent van Gogh, Wheat Field with Cypresses (1889) · The Met · Public Domain',
+    'Katsushika Hokusai, Under the Wave off Kanagawa (ca. 1830–32) · The Met · Public Domain',
+    'Georges Seurat, A Sunday on La Grande Jatte (1884) · Public Domain',
+    'Margareta Haverman, A Vase of Flowers (1716) · The Met · Public Domain',
+  ];
+  let i = 0;
+  setInterval(() => {
+    taglineEl.classList.add('fading');
+    setTimeout(() => {
+      slides[i].classList.remove('on');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('on');
+      taglineEl.textContent = taglines[i];
+      creditEl.textContent = credits[i];
+      taglineEl.classList.remove('fading');
+    }, 1100);
+  }, 7000);
+</script>
+
+</body>
+</html>
