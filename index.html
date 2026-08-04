@@ -79,6 +79,10 @@
     opacity: 0; will-change: opacity, transform; transform: translateY(12px);
     padding: 0 6vw;
   }
+  /* soft scrim for slides whose art is too light behind white text */
+  .deck-slide.scrim .tag {
+    background: radial-gradient(ellipse 58% 26% at 50% 50%, rgba(20,18,15,.44), rgba(20,18,15,0) 72%);
+  }
   .deck-credit {
     position: absolute; left: 20px; bottom: 16px; z-index: 5;
     font-size: 10px; letter-spacing: .08em; color: rgba(255,255,255,.75);
@@ -326,7 +330,7 @@
     <div class="deck-slide" style="background-image:url('assets/bles_landscape.jpg')">
       <div class="tag">Become part of the story</div>
     </div>
-    <div class="deck-slide" style="background-image:url('assets/wave.jpg')">
+    <div class="deck-slide scrim" style="background-image:url('assets/wave.jpg')">
       <div class="tag">Experience the sensations</div>
     </div>
     <div class="deck-slide" style="background-image:url('assets/jatte.jpg')">
@@ -575,6 +579,10 @@
     return 0;
   }
 
+  // opening tagline auto-plays on load (the one entrance that shouldn't wait for scroll);
+  // after that the scroll owns it like everything else
+  let introV = reduced ? 1 : 0;
+
   let lastCredit = -1;
   function drawDeck() {
     const vh = innerHeight;
@@ -587,7 +595,8 @@
       s.style.opacity = io;
       s.style.zIndex = Math.round(io * 10);
       // text: slight delay in, leaves first ("not burned into the image")
-      const to = ramp(p, i + 0.06, i + 0.22, i + 0.42, i + 0.6);
+      let to = ramp(p, i + 0.06, i + 0.22, i + 0.42, i + 0.6);
+      if (i === 0) to = Math.min(introV, 1 - clamp01((p - 0.42) / 0.18));
       const t = tags[i];
       t.style.opacity = to;
       t.style.transform = 'translateY(' + (12 * (1 - clamp01(to))) + 'px)';
@@ -675,6 +684,16 @@
   if (!flat) {
     addEventListener('scroll', onScroll, { passive: true });
     onScroll();
+    // play the opening tagline entrance (~1.1s with a short beat after load)
+    if (!reduced) {
+      const t0 = performance.now();
+      (function intro(now) {
+        const raw = clamp01(((now || performance.now()) - t0 - 350) / 1100);
+        introV = raw * raw * (3 - 2 * raw); // smoothstep ease
+        drawDeck();
+        if (raw < 1) requestAnimationFrame(intro);
+      })(t0);
+    }
   }
 
   // dev hook: /?at=<px> scrolls on load (used for visual regression shots)
