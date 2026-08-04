@@ -101,17 +101,15 @@
   .logo-center .big-brand span { font-family: var(--sans); font-weight: 600; letter-spacing: .24em; font-size: 26px; }
   .motto {
     margin-top: 14px; font-size: 13px; font-weight: 600; letter-spacing: .26em;
-    opacity: 0; transform: translateY(10px); transition: opacity .7s ease, transform .7s ease;
+    opacity: 0; transform: translateY(10px); will-change: opacity, transform;
   }
-  .motto.on { opacity: 1; transform: none; }
 
   .wall-frame {
     position: absolute; width: 13vw; min-width: 110px; max-width: 210px;
     opacity: 0; transform: translateY(46px) scale(.92);
-    transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1);
+    will-change: opacity, transform;
     z-index: 2;
   }
-  .wall-frame.on { opacity: 1; transform: none; }
   /* placeholder frame treatment — swap for trained AI frame assets when available */
   .framed {
     background: linear-gradient(135deg, #9a7a40, #6e5527 55%, #8a6c36);
@@ -119,30 +117,6 @@
     box-shadow: 0 22px 44px rgba(28,26,23,.28), 0 4px 10px rgba(28,26,23,.18);
   }
   .framed .mat { background: #f7f3e9; padding: clamp(4px, .5vw, 8px); }
-
-  /* ================= play meditation vignette ================= */
-  .play-wrap { position: absolute; left: 50%; bottom: 9vh; transform: translateX(-50%); z-index: 4;
-    opacity: 0; transition: opacity .8s ease; }
-  .play-wrap.on { opacity: 1; }
-  .pill-btn {
-    display: inline-flex; align-items: center; gap: 10px;
-    background: var(--ink); color: var(--cream); border: 0; cursor: pointer;
-    font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: .2em;
-    padding: 14px 26px; border-radius: 999px; transition: transform .2s ease;
-  }
-  .pill-btn:hover { transform: scale(1.05); }
-  .pill-btn .tri { width: 0; height: 0; border-left: 8px solid currentColor; border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
-
-  #vignette {
-    position: fixed; inset: 0; z-index: 80; background: var(--cream);
-    display: none; align-items: center; justify-content: center; flex-direction: column; gap: 34px;
-    opacity: 0; transition: opacity .5s ease;
-  }
-  #vignette.open { display: flex; }
-  #vignette.show { opacity: 1; }
-  #vignette .framed { max-width: min(64vw, 660px); animation: vign 1s cubic-bezier(.2,.7,.2,1); }
-  @keyframes vign { from { transform: scale(.82); opacity: 0 } to { transform: none; opacity: 1 } }
-  #vignette .credit-line { font-size: 10px; letter-spacing: .08em; color: var(--muted); margin-top: -18px; }
 
   /* ================= blur-reveal canvas ================= */
   #canvas { position: relative; }
@@ -157,7 +131,7 @@
     position: absolute; top: 0; bottom: 0;
     backdrop-filter: blur(26px) saturate(1.05); -webkit-backdrop-filter: blur(26px) saturate(1.05);
     background: rgba(239,235,225,.07);
-    transition: opacity 1s ease; will-change: opacity;
+    will-change: opacity;
     -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px);
     mask-image: linear-gradient(to right, transparent 0, #000 56px);
   }
@@ -165,10 +139,9 @@
   #blurEnd  { left: 66.4%;  width: 33.6%; }
   .cv-box {
     position: absolute; width: 26%; min-width: 200px; color: #fff; z-index: 3;
-    opacity: 0; transform: translateY(16px); transition: opacity .9s ease .15s, transform .9s ease .15s;
+    opacity: 0; transform: translateY(16px); will-change: opacity, transform;
     text-shadow: 0 1px 18px rgba(0,0,0,.55);
   }
-  .cv-box.on { opacity: 1; transform: none; }
   .cv-box h3 { font-family: var(--serif); font-size: clamp(15px, 1.5vw, 22px); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; }
   .cv-box p { font-size: clamp(11px, .95vw, 14px); line-height: 1.65; opacity: .94; }
   #cvBox1 { left: 4%;  top: 12%; }
@@ -191,8 +164,8 @@
   .j-img { flex: 0 0 42%; position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/4.6;
     box-shadow: 0 24px 50px rgba(28,26,23,.22); }
   .j-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    opacity: 0; transition: opacity 1.4s ease; }
-  .j-img img.on { opacity: 1; }
+    opacity: 0; will-change: opacity; }
+  .j-img img:first-child { opacity: 1; }
   .j-text { flex: 1; font-size: clamp(15px, 1.5vw, 19px); font-weight: 600; letter-spacing: .06em;
     text-transform: uppercase; line-height: 1.75; color: #3d3a33; }
   .j-row:nth-child(even) .j-text { text-align: right; }
@@ -251,7 +224,7 @@
     text-transform: uppercase; line-height: 1.55; margin-bottom: 56px; }
   .mosaic { position: relative; border-radius: 18px; overflow: hidden; min-height: 460px; }
   .mosaic-panel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-around;
-    gap: 3%; padding: 5%; opacity: 0; transition: opacity 1.6s ease; }
+    gap: 3%; padding: 5%; opacity: 0; will-change: opacity; }
   .mosaic-panel.on { opacity: 1; }
   .mosaic-panel img { border-radius: 10px; object-fit: cover; box-shadow: 0 16px 34px rgba(0,0,0,.3); }
   .mosaic-panel img:nth-child(1) { width: 26%; aspect-ratio: 3/4; transform: translateY(-6%); }
@@ -309,7 +282,9 @@
   html.flat .deck-slide .tag { opacity: 1 !important; transform: none !important; font-size: 30px; }
   html.flat .logo-sticky { position: static; height: 760px; }
   html.flat .wall-frame { width: 150px; }
-  html.flat .wall-frame, html.flat .motto, html.flat .play-wrap { opacity: 1 !important; transform: none !important; }
+  html.flat .wall-frame, html.flat .motto { opacity: 1 !important; transform: none !important; }
+  html.flat .j-img img:first-child { opacity: 1 !important; }
+  html.flat #panelVG { opacity: 1 !important; }
   html.flat .cv-sticky { position: static; height: 780px; }
   html.flat .cv-wrap { height: 720px; }
   html.flat .heal { min-height: 700px; }
@@ -392,16 +367,7 @@
       <div class="motto" id="motto">MASTERPIECES FOR THE MIND</div>
     </div>
 
-    <div class="play-wrap" id="playWrap">
-      <button class="pill-btn" id="playBtn" type="button"><span class="tri"></span>PLAY MEDITATION</button>
-    </div>
   </div>
-</div>
-
-<div id="vignette" role="dialog" aria-label="Meditation preview">
-  <div class="framed"><div class="mat"><img src="assets/caillebotte_skiffs.jpg" alt="Gustave Caillebotte, Oarsmen"></div></div>
-  <div class="credit-line">Gustave Caillebotte, Oarsmen &middot; Public Domain</div>
-  <button class="pill-btn" id="backBtn" type="button">&#8617;&nbsp; BACK TO PAGE</button>
 </div>
 
 <!-- ============ 3. blur-reveal canvas ============ -->
@@ -572,7 +538,6 @@
   const logoPage = document.getElementById('logoPage');
   const motto = document.getElementById('motto');
   const frames = Array.from(document.querySelectorAll('.wall-frame'));
-  const playWrap = document.getElementById('playWrap');
   const canvas = document.getElementById('canvas');
   const blurMid = document.getElementById('blurMid');
   const blurEnd = document.getElementById('blurEnd');
@@ -631,25 +596,64 @@
     if (cur !== lastCredit) { credit.textContent = CREDITS[cur]; lastCredit = cur; }
   }
 
+  // every value below is scrubbed directly from scroll position — scrolling IS the playhead
   function drawLogo() {
     const vh = innerHeight;
     const p = (scrollY - logoPage.offsetTop) / (1.2 * vh); // 0..1
-    const on = p > 0.12;
-    motto.classList.toggle('on', on);
+    const mo = clamp01((p - 0.1) / 0.2);
+    motto.style.opacity = mo;
+    motto.style.transform = 'translateY(' + (10 * (1 - mo)) + 'px)';
     frames.forEach(f => {
       const d = +f.dataset.d;
-      f.classList.toggle('on', p > 0.12 + d * 0.055);
+      const fp = clamp01((p - (0.08 + d * 0.05)) / 0.22);
+      f.style.opacity = fp;
+      f.style.transform = 'translateY(' + (46 * (1 - fp)) + 'px) scale(' + (0.92 + 0.08 * fp) + ')';
     });
-    playWrap.classList.toggle('on', p > 0.55);
+  }
+
+  function setBox(el, o) {
+    el.style.opacity = o;
+    el.style.transform = 'translateY(' + (16 * (1 - o)) + 'px)';
   }
 
   function drawCanvas() {
     const vh = innerHeight;
-    const p = (scrollY - canvas.offsetTop) / (2.2 * vh); // 0..1
-    const stage = p < 0.34 ? 0 : (p < 0.67 ? 1 : 2);
-    blurMid.style.opacity = stage >= 1 ? 0 : 1;
-    blurEnd.style.opacity = stage >= 2 ? 0 : 1;
-    cvBoxes.forEach((b, i) => b.classList.toggle('on', stage >= i));
+    const p = (scrollY - canvas.offsetTop) / (2.2 * vh); // 0..1 across the pinned section
+    blurMid.style.opacity = 1 - clamp01((p - 0.3) / 0.16);   // second third un-blurs under your thumb
+    blurEnd.style.opacity = 1 - clamp01((p - 0.62) / 0.16);  // last third
+    setBox(cvBoxes[0], clamp01((p + 0.42) / 0.3));           // fades in while the canvas enters view
+    setBox(cvBoxes[1], clamp01((p - 0.32) / 0.14));
+    setBox(cvBoxes[2], clamp01((p - 0.64) / 0.14));
+  }
+
+  // journey image boxes: crossfade through their set as the row travels the viewport
+  const rotRows = ['rotA', 'rotB']
+    .map(id => document.getElementById(id))
+    .filter(Boolean)
+    .map(el => ({ el, imgs: Array.from(el.querySelectorAll('img')) }));
+  function drawJourney() {
+    const vh = innerHeight;
+    rotRows.forEach(r => {
+      const rect = r.el.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > vh) return;
+      const p = clamp01((vh - rect.top) / (vh + rect.height)); // 0 at enter-bottom → 1 at exit-top
+      const idxF = p * (r.imgs.length - 1);
+      r.imgs.forEach((img, i) => {
+        img.style.opacity = clamp01(1 - Math.abs(idxF - i) * 1.4);
+      });
+    });
+  }
+
+  // why-it-works mosaic: Van Gogh panel hands over to Monet as you scroll through the section
+  const whySec = document.getElementById('why');
+  const panels = [document.getElementById('panelVG'), document.getElementById('panelMonet')];
+  function drawWhy() {
+    const rect = whySec.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > innerHeight) return;
+    const p = clamp01((innerHeight - rect.top) / (innerHeight + rect.height));
+    const t = clamp01((p - 0.42) / 0.22);
+    panels[0].style.opacity = 1 - t;
+    panels[1].style.opacity = t;
   }
 
   function drawNav() {
@@ -664,7 +668,7 @@
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => {
-      drawDeck(); drawLogo(); drawCanvas(); drawNav();
+      drawDeck(); drawLogo(); drawCanvas(); drawJourney(); drawWhy(); drawNav();
       queued = false;
     });
   }
@@ -672,45 +676,6 @@
     addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   }
-
-  // journey rotators
-  function rotate(id, offsetMs) {
-    const imgs = Array.from(document.querySelectorAll('#' + id + ' img'));
-    if (!imgs.length) return;
-    let i = 0;
-    imgs[0].classList.add('on');
-    if (reduced) return;
-    setTimeout(() => setInterval(() => {
-      imgs[i].classList.remove('on');
-      i = (i + 1) % imgs.length;
-      imgs[i].classList.add('on');
-    }, 4600), offsetMs);
-  }
-  rotate('rotA', 0);
-  rotate('rotB', 2300);
-
-  // why-it-works mosaic crossfade
-  const panels = [document.getElementById('panelVG'), document.getElementById('panelMonet')];
-  if (!reduced) {
-    let pi = 0;
-    setInterval(() => {
-      panels[pi].classList.remove('on');
-      pi = (pi + 1) % panels.length;
-      panels[pi].classList.add('on');
-    }, 6500);
-  }
-
-  // play meditation vignette
-  const vignette = document.getElementById('vignette');
-  document.getElementById('playBtn').addEventListener('click', () => {
-    vignette.classList.add('open');
-    requestAnimationFrame(() => vignette.classList.add('show'));
-    document.body.style.overflow = 'hidden';
-  });
-  document.getElementById('backBtn').addEventListener('click', () => {
-    vignette.classList.remove('show');
-    setTimeout(() => { vignette.classList.remove('open'); document.body.style.overflow = ''; }, 500);
-  });
 
   // dev hook: /?at=<px> scrolls on load (used for visual regression shots)
   const at = new URLSearchParams(location.search).get('at');
