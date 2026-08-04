@@ -674,6 +674,47 @@
     nav.className = scrollY < heroEnd ? 'over-art' : (scrollY < logoEnd ? 'over-cream' : 'banner');
   }
 
+  // --- snap-to-rest: if scrolling stops mid-transition, glide to the nearest
+  // fully-resolved state so the user never has to "finish" a fade by hand.
+  const SNAP_IDLE = 200;   // ms of scroll silence before snapping
+  const SNAP_MIN = 24;     // px — already close enough, don't bother
+  let snapTimer = null, snapping = false;
+
+  function restPoints() {
+    const vh = innerHeight;
+    const pts = [];
+    for (let i = 0; i < slides.length; i++) pts.push(deck.offsetTop + i * PER * vh); // each slide fully in
+    pts.push(logoPage.offsetTop);              // logo alone on cream
+    pts.push(logoPage.offsetTop + vh);         // gallery wall fully assembled
+    const cT = canvas.offsetTop, cL = 2.2 * vh;
+    pts.push(cT + 0.16 * cL);                  // canvas stage 1 (left third clear)
+    pts.push(cT + 0.5 * cL);                   // stage 2
+    pts.push(cT + 0.88 * cL);                  // fully revealed
+    return pts;
+  }
+
+  function trySnap() {
+    if (snapping || reduced || flat) return;
+    const y = scrollY, vh = innerHeight;
+    const pts = restPoints();
+    if (y > pts[pts.length - 1] + 0.6 * vh) return; // journey onward scrolls freely
+    let best = pts[0];
+    for (const p of pts) if (Math.abs(p - y) < Math.abs(best - y)) best = p;
+    const d = Math.abs(best - y);
+    if (d < SNAP_MIN || d > vh) return;
+    snapping = true;
+    scrollTo({ top: best, left: 0, behavior: 'smooth' });
+    setTimeout(() => { snapping = false; }, 1100);
+  }
+
+  function scheduleSnap() {
+    if (snapping) return;
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(trySnap, SNAP_IDLE);
+  }
+  ['wheel', 'touchstart', 'keydown'].forEach(ev =>
+    addEventListener(ev, () => { snapping = false; clearTimeout(snapTimer); }, { passive: true }));
+
   let queued = false;
   function onScroll() {
     if (queued) return;
@@ -682,6 +723,7 @@
       drawDeck(); drawLogo(); drawCanvas(); drawJourney(); drawWhy(); drawNav();
       queued = false;
     });
+    scheduleSnap();
   }
   if (!flat) {
     addEventListener('scroll', onScroll, { passive: true });
