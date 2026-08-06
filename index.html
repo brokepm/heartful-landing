@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; form-action 'self' https://formsubmit.co; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; form-action 'self' https://formsubmit.co; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Heartful — Meditate Inside of Masterpieces</title>
@@ -11,9 +11,12 @@
 <meta property="og:description" content="Guided meditations inside the world's greatest paintings. Join the waitlist.">
 <meta property="og:image" content="assets/wheatfield.jpg">
 <link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face { font-family: 'Marcellus'; font-style: normal; font-weight: 400; font-display: swap;
+    src: url('assets/fonts/marcellus-400-latin.woff2') format('woff2'); }
+  @font-face { font-family: 'Inter'; font-style: normal; font-weight: 100 900; font-display: swap;
+    src: url('assets/fonts/inter-latin.woff2') format('woff2'); }
+</style>
 <style>
   :root {
     --cream: #EFEBE1;
@@ -451,7 +454,6 @@
     <div>
       <form class="waitlist" action="https://formsubmit.co/info@heartful.art" method="POST">
         <input type="hidden" name="_subject" value="Heartful waitlist signup">
-        <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_next" value="https://heartful.art/?joined=1">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
         <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" autocomplete="email" inputmode="email" maxlength="254">
@@ -557,7 +559,6 @@
   <p>Join the waitlist and be the first to step inside.</p>
   <form class="waitlist" action="https://formsubmit.co/info@heartful.art" method="POST">
     <input type="hidden" name="_subject" value="Heartful waitlist signup">
-    <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_next" value="https://heartful.art/?joined=1">
     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
     <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" autocomplete="email" inputmode="email" maxlength="254">
@@ -566,7 +567,7 @@
 </div>
 
 <footer>
-  &copy; 2026 HEARTFUL. All rights reserved. &middot; <a href="mailto:info@heartful.art">Contact</a> &middot; <a href="privacy.html">Privacy Policy</a><br>
+  &copy; 2026 Heartful Ltd &middot; Registered in England &amp; Wales No. 16423367 &middot; <a href="mailto:info@heartful.art">Contact</a> &middot; <a href="privacy.html">Privacy Policy</a><br>
   Artworks are in the public domain (CC0) &middot; The Metropolitan Museum of Art &middot; Wikimedia Commons &middot; Art Institute of Chicago<br>
   Cueva de las Manos photograph by Mariano Cecowski &middot; CC BY-SA 3.0
 </footer>
@@ -826,6 +827,18 @@
       document.body.appendChild(d);
     }, 900);
   }
+
+  // waitlist submit guard: block double-clicks and rapid resubmits
+  let lastSubmit = 0;
+  document.querySelectorAll('form.waitlist').forEach(f => {
+    f.addEventListener('submit', e => {
+      const now = Date.now();
+      if (now - lastSubmit < 10000) { e.preventDefault(); return; }
+      lastSubmit = now;
+      const btn = f.querySelector('button[type=submit]');
+      if (btn) { btn.disabled = true; btn.textContent = 'SENDING…'; }
+    });
+  });
 
   // waitlist joined banner
   if (new URLSearchParams(location.search).get('joined') === '1') {
