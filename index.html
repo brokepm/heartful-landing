@@ -39,18 +39,18 @@
     transition: background .45s ease, box-shadow .45s ease, color .45s ease;
   }
   .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
-  .brand span { font-weight: 600; letter-spacing: 0.18em; font-size: 13px; }
-  .mark { width: 26px; height: 26px; flex: 0 0 auto; }
-  .nav-right { display: flex; align-items: center; gap: 28px; }
-  .nav-links { display: flex; gap: 28px; }
+  .brand span { font-weight: 700; letter-spacing: 0.2em; font-size: 15px; }
+  .mark { width: 30px; height: 30px; flex: 0 0 auto; }
+  .nav-right { display: flex; align-items: center; gap: 30px; }
+  .nav-links { display: flex; gap: 30px; }
   .nav-links a {
-    color: inherit; text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: 0.22em;
-    opacity: .85;
+    color: inherit; text-decoration: none; font-size: 12.5px; font-weight: 700; letter-spacing: 0.22em;
+    opacity: .95;
   }
   .nav-links a:hover { opacity: 1; }
   .nav-cta {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-decoration: none;
-    padding: 10px 20px; border-radius: 999px; white-space: nowrap;
+    font-size: 12.5px; font-weight: 700; letter-spacing: 0.18em; text-decoration: none;
+    padding: 12px 24px; border-radius: 999px; white-space: nowrap;
     background: var(--ink); color: var(--cream);
     transition: transform .2s ease;
   }
@@ -735,11 +735,28 @@
     nav.className = scrollY < heroEnd ? 'over-art' : (scrollY < logoEnd ? 'over-cream' : 'banner');
   }
 
-  // --- snap-to-rest: if scrolling stops mid-transition, glide to the nearest
-  // fully-resolved state so the user never has to "finish" a fade by hand.
-  const SNAP_IDLE = 200;   // ms of scroll silence before snapping
-  const SNAP_MIN = 24;     // px — already close enough, don't bother
+  // --- settle-to-rest: if scrolling stops mid-transition, glide onward — in the
+  // direction of travel only, never backwards — to the next fully-resolved state.
+  const SNAP_IDLE = 140;   // ms of scroll silence before settling
+  const SNAP_MIN = 28;     // px — this close to a rest counts as "at rest"
   let snapTimer = null, snapping = false;
+  let dirY = 1, prevScrollY = 0;
+
+  function glideTo(target) {
+    snapping = true;
+    document.documentElement.style.scrollBehavior = 'auto';
+    const start = scrollY, dist = target - start;
+    const dur = Math.min(950, 380 + Math.abs(dist) * 0.5);
+    const t0 = performance.now();
+    (function step(now) {
+      if (!snapping) { document.documentElement.style.scrollBehavior = ''; return; }
+      const t = clamp01(((now || performance.now()) - t0) / dur);
+      const e = 1 - Math.pow(1 - t, 3); // ease-out: settles, no spring
+      scrollTo(0, start + dist * e);
+      if (t < 1) requestAnimationFrame(step);
+      else { snapping = false; document.documentElement.style.scrollBehavior = ''; }
+    })(t0);
+  }
 
   function restPoints() {
     const vh = innerHeight;
@@ -757,15 +774,16 @@
   function trySnap() {
     if (snapping || reduced || flat) return;
     const y = scrollY, vh = innerHeight;
-    const pts = restPoints();
+    const pts = restPoints().sort((a, b) => a - b);
     if (y > pts[pts.length - 1] + 0.6 * vh) return; // journey onward scrolls freely
-    let best = pts[0];
-    for (const p of pts) if (Math.abs(p - y) < Math.abs(best - y)) best = p;
-    const d = Math.abs(best - y);
-    if (d < SNAP_MIN || d > vh) return;
-    snapping = true;
-    scrollTo({ top: best, left: 0, behavior: 'smooth' });
-    setTimeout(() => { snapping = false; }, 1100);
+    // already settled on a rest point? stay put — never auto-advance
+    for (const p of pts) if (Math.abs(p - y) < SNAP_MIN) return;
+    // mid-transition: continue in the direction of travel only (no backwards bounce)
+    let target = null;
+    if (dirY >= 0) { for (const p of pts) if (p > y) { target = p; break; } }
+    else { for (let i = pts.length - 1; i >= 0; i--) if (pts[i] < y) { target = pts[i]; break; } }
+    if (target === null || Math.abs(target - y) > 1.6 * vh) return;
+    glideTo(target);
   }
 
   function scheduleSnap() {
@@ -778,6 +796,8 @@
 
   let queued = false;
   function onScroll() {
+    if (scrollY !== prevScrollY) dirY = scrollY > prevScrollY ? 1 : -1;
+    prevScrollY = scrollY;
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => {
