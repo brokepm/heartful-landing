@@ -42,3 +42,10 @@ Per Withers guidance: source URL + PD/CC0 mark logged for each asset.
 | `assets/monet_waterlilies_wiki.jpg` | Claude Monet, *Water Lilies* (1906) | Wikimedia Commons (AIC) | https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Water_Lilies_-_1906,_Ryerson.jpg | Public domain (pre-1930 2D work) |
 | `assets/monet_parliament.jpg` | Claude Monet, *Houses of Parliament, Sunlight Effect* (1903) | Wikimedia Commons (Google Art Project / Brooklyn Museum) | https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Houses_of_Parliament,_Sunlight_Effect_(Le_Parlement,_effet_de_soleil)_-_Google_Art_Project.jpg | Public domain (pre-1930 2D work) |
 | `assets/monet_grainstack.jpg` | Claude Monet, *Grainstack (Sun in the Mist)* (1891) | Wikimedia Commons (Google Art Project / Mia) | https://commons.wikimedia.org/wiki/File:Claude_Monet_-_Grainstack,_Sun_in_the_Mist_-_Google_Art_Project.jpg | Public domain (pre-1930 2D work) |
+
+## Added 2026-08-06
+
+| Asset | Work | Source | Rights |
+|---|---|---|---|
+| `assets/frame_gold.webp`, `assets/frame_silver.webp`, `assets/frame_gold_wide.webp` | Antique museum frame textures | AI-generated (Google Nano Banana 2 via Higgsfield) for Heartful | Heartful brand asset |
+| `assets/hero_*.jpg` | Edge-cropped variants of existing hero paintings (same works/rights as originals above) | derived in-repo | same as source works |

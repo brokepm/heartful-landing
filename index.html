@@ -120,33 +120,47 @@
     will-change: opacity, transform;
     z-index: 2;
   }
-  /* placeholder frame treatment — swap for trained AI frame assets when available */
+  /* antique museum frames — AI-generated, 9-sliced */
   .framed {
-    background: linear-gradient(135deg, #9a7a40, #6e5527 55%, #8a6c36);
-    padding: clamp(6px, .8vw, 12px);
-    box-shadow: 0 22px 44px rgba(28,26,23,.28), 0 4px 10px rgba(28,26,23,.18);
+    border: clamp(14px, 1.6vw, 24px) solid transparent;
+    border-image: url('assets/frame_gold.webp') 329 327 231 328 round;
+    background: #f7f3e9;
+    box-shadow: 0 22px 44px rgba(28,26,23,.32), 0 4px 10px rgba(28,26,23,.18);
   }
-  .framed .mat { background: #f7f3e9; padding: clamp(4px, .5vw, 8px); }
+  .wall-frame:nth-child(even) .framed {
+    border-image: url('assets/frame_silver.webp') 231 231 233 231 round;
+  }
+  .framed .mat { background: #f7f3e9; padding: clamp(3px, .4vw, 6px); }
 
   /* ================= blur-reveal canvas ================= */
   #canvas { position: relative; }
   .cv-sticky { position: sticky; top: 0; height: 100svh; min-height: 540px;
     display: flex; align-items: center; justify-content: center; }
   .cv-wrap {
-    position: relative; width: 94vw; height: 86svh; border-radius: 26px; overflow: hidden;
-    box-shadow: 0 30px 70px rgba(28,26,23,.3);
+    position: relative; width: 92vw; height: 85svh; overflow: hidden;
+    border: clamp(24px, 3.4vw, 50px) solid transparent;
+    border-image: url('assets/frame_gold_wide.webp') 172 168 166 168 round;
+    background: #1c1a17;
+    box-shadow: 0 30px 70px rgba(28,26,23,.35);
   }
   .cv-wrap img.base { width: 100%; height: 100%; object-fit: cover; }
+  /* three overlapping feathered blur veils — whole painting starts hidden,
+     each scroll stage lifts one; overlaps keep seams invisible */
   .cv-blur {
-    position: absolute; top: 0; bottom: 0;
-    backdrop-filter: blur(26px) saturate(1.05); -webkit-backdrop-filter: blur(26px) saturate(1.05);
-    background: rgba(239,235,225,.07);
+    position: absolute; top: -2%; bottom: -2%;
+    backdrop-filter: blur(32px) saturate(1.05); -webkit-backdrop-filter: blur(32px) saturate(1.05);
+    background: rgba(239,235,225,.06);
     will-change: opacity;
-    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 56px);
-    mask-image: linear-gradient(to right, transparent 0, #000 56px);
   }
-  #blurMid  { left: 33.33%; width: 33.34%; }
-  #blurEnd  { left: 66.4%;  width: 33.6%; }
+  #blurA { left: -2%; width: 46%;
+    -webkit-mask-image: linear-gradient(to right, #000 0 66%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 0 66%, transparent 100%); }
+  #blurB { left: 26%; width: 48%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26% 74%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 26% 74%, transparent 100%); }
+  #blurC { left: 56%; width: 46%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 34% 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 34% 100%); }
   .cv-box {
     position: absolute; width: 26%; min-width: 200px; color: #fff; z-index: 3;
     opacity: 0; transform: translateY(16px); will-change: opacity, transform;
@@ -174,7 +188,7 @@
   .j-img { flex: 0 0 42%; position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 4/4.6;
     box-shadow: 0 24px 50px rgba(28,26,23,.22); }
   .j-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-    opacity: 0; will-change: opacity; }
+    opacity: 0; will-change: opacity; transform: scale(1.07); } /* zoom past photographed painting edges */
   .j-img img:first-child { opacity: 1; }
   .j-text { flex: 1; font-size: clamp(15px, 1.5vw, 19px); font-weight: 600; letter-spacing: .06em;
     text-transform: uppercase; line-height: 1.75; color: #3d3a33; }
@@ -225,38 +239,53 @@
   .step-card h3 { font-family: var(--serif); font-size: 19px; letter-spacing: .1em; text-transform: uppercase; margin: 8px 0 auto; }
   .step-card p { font-size: 13px; color: #4d4a43; margin-top: 22px; }
   .step-img { border-radius: 14px; overflow: hidden; min-height: 300px; }
-  .step-img img { width: 100%; height: 100%; object-fit: cover; }
+  .step-img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); }
   .steps .mid-title { display: flex; align-items: center; justify-content: center; text-align: center;
     font-family: var(--serif); font-size: clamp(20px, 2.2vw, 30px); letter-spacing: .12em; text-transform: uppercase; line-height: 1.5; }
 
   /* ================= why it works ================= */
   #why h2 { text-align: center; font-size: clamp(20px, 2.4vw, 32px); letter-spacing: .1em;
     text-transform: uppercase; line-height: 1.55; margin-bottom: 56px; }
-  .mosaic { position: relative; border-radius: 18px; overflow: hidden; min-height: 460px; }
-  .mosaic-panel { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-around;
-    gap: 3%; padding: 5%; opacity: 0; will-change: opacity; }
-  .mosaic-panel.on { opacity: 1; }
-  .mosaic-panel img { border-radius: 10px; object-fit: cover; box-shadow: 0 16px 34px rgba(0,0,0,.3); }
-  .mosaic-panel img:nth-child(1) { width: 26%; aspect-ratio: 3/4; transform: translateY(-6%); }
-  .mosaic-panel img:nth-child(2) { width: 30%; aspect-ratio: 4/3.4; transform: translateY(8%); }
-  .mosaic-panel img:nth-child(3) { width: 26%; aspect-ratio: 3/3.6; transform: translateY(-3%); }
-  #panelVG { background: #a3852f; }
-  #panelMonet { background: #587771; }
   #why .blurb { max-width: 560px; margin: 44px auto 0; text-align: center; font-size: 14px; color: #4d4a43; }
   /* stats — "wrapped" tiles, scroll-scrubbed like everything else */
   .stats-claim { max-width: 640px; margin: 90px auto 0; text-align: center;
     font-family: var(--serif); font-size: clamp(18px, 2vw, 26px); letter-spacing: .06em; line-height: 1.6; }
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; }
-  .stat-tile { border-radius: 16px; padding: 30px 26px; color: var(--cream); min-height: 240px;
-    display: flex; flex-direction: column; justify-content: space-between; gap: 18px;
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: minmax(150px, auto);
+    gap: 16px; margin-top: 48px; }
+  .stat-tile { border-radius: 18px; padding: 28px 26px; color: var(--cream);
+    display: flex; flex-direction: column; gap: 14px; overflow: hidden;
     will-change: opacity, transform; }
-  .stat-tile .big { font-family: var(--serif); font-size: clamp(44px, 4.6vw, 72px); line-height: 1; }
-  .stat-tile .big .unit { font-size: .38em; letter-spacing: .08em; }
+  .stat-tile .big { font-family: var(--serif); font-size: clamp(46px, 4.8vw, 80px); line-height: .95; margin-top: auto; }
+  .stat-tile .big .unit { font-size: .34em; letter-spacing: .08em; }
   .stat-tile .cap { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .9; line-height: 1.7; }
-  .stat-tile.quote { grid-column: span 2; justify-content: center; }
+  .stat-tile.tall { grid-column: 1; grid-row: 1 / 3; }
+  .stat-tile.tall .big { font-size: clamp(66px, 7vw, 118px); }
+  .stat-tile.tall2 { grid-column: 4; grid-row: 1 / 3; }
+  .stat-tile.tall2 .big { font-size: clamp(56px, 5.6vw, 96px); }
+  .stat-tile.quote.st-ink { grid-column: 2 / 4; grid-row: 2; }
+  .stat-tile.quote.st-teal { grid-column: 1 / 3; }
+  .stat-tile.wide { grid-column: 3 / 5; }
+  .stat-tile.dark-text { color: #2a1d18; }
+  .stat-tile.dark-text .cap { opacity: .75; }
+  /* animated decorations (all scrubbed by scroll) */
+  .dotgrid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 9px; margin: 12px 0; }
+  .dotgrid i { aspect-ratio: 1; border-radius: 50%; background: rgba(239,235,225,.16); }
+  .dotgrid i.lit { background: #e8b74f; }
+  .tris { display: flex; flex-direction: column; align-items: center; gap: 7px; margin: 12px 0; }
+  .tris span { width: 0; height: 0; border-style: solid; border-color: transparent;
+    border-top-color: rgba(239,235,225,.9); transform: scale(0); }
+  .tris span:nth-child(1) { border-width: 24px 28px 0 28px; opacity: .5; }
+  .tris span:nth-child(2) { border-width: 24px 38px 0 38px; opacity: .72; }
+  .tris span:nth-child(3) { border-width: 24px 50px 0 50px; }
+  .bars { display: flex; align-items: flex-end; gap: 12px; height: 120px; margin: 10px 0; }
+  .bars i { flex: 1; border-radius: 6px 6px 0 0; background: rgba(239,235,225,.9); height: 6%; }
+  .bars i:nth-child(2) { background: rgba(28,26,23,.45); }
+  .circlebig { width: 58%; max-width: 150px; aspect-ratio: 1; border-radius: 50%;
+    background: rgba(255,255,255,.8); margin: 8px auto; transform: scale(0); }
+  .stat-tile.quote { justify-content: center; }
   .stat-tile.quote .q { font-family: var(--serif); font-size: clamp(17px, 1.7vw, 23px); line-height: 1.55; letter-spacing: .03em; }
   .stat-tile.quote .who { margin-top: 16px; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
-  .stat-tile.wide { grid-column: span 4; min-height: 0; flex-direction: row; align-items: center; justify-content: center;
+  .stat-tile.wide { min-height: 0; flex-direction: row; align-items: center; justify-content: center;
     text-align: center; padding: 26px; }
   .stat-tile.wide .q { font-family: var(--serif); font-size: clamp(16px, 1.6vw, 22px); letter-spacing: .05em; }
   .st-burgundy { background: #7d3639; }
@@ -288,10 +317,11 @@
     .step-img { min-height: 220px; }
     .cv-box { width: 30%; min-width: 0; }
     .cv-box p { display: none; }  /* keep titles only on small screens */
-    .mosaic { min-height: 300px; }
     .stats { grid-template-columns: 1fr 1fr; }
     .stat-tile { min-height: 190px; }
-    .stat-tile.quote, .stat-tile.wide { grid-column: span 2; }
+    .stat-tile.tall, .stat-tile.tall2, .stat-tile.quote.st-ink, .stat-tile.quote.st-teal, .stat-tile.wide {
+      grid-column: span 2; grid-row: auto; }
+    .stat-tile.tall .big { font-size: clamp(56px, 14vw, 80px); }
     .wall-frame { width: 24vw; }
     .heal .inner { align-items: flex-start; flex-direction: column; }
   }
@@ -307,9 +337,8 @@
   html.flat .deck-slide .tag { opacity: 1 !important; transform: none !important; font-size: 30px; }
   html.flat .logo-sticky { position: static; height: 760px; }
   html.flat .wall-frame { width: 150px; }
-  html.flat .wall-frame, html.flat .motto { opacity: 1 !important; transform: none !important; }
+  html.flat .wall-frame, html.flat .motto, html.flat .logo-center { opacity: 1 !important; transform: none !important; }
   html.flat .j-img img:first-child { opacity: 1 !important; }
-  html.flat #panelVG { opacity: 1 !important; }
   html.flat .stat-tile { opacity: 1 !important; transform: none !important; }
   html.flat .cv-sticky { position: static; height: 780px; }
   html.flat .cv-wrap { height: 720px; }
@@ -340,19 +369,19 @@
 <!-- ============ 1. hero fade deck ============ -->
 <div id="deck" aria-label="Heartful taglines over masterpieces">
   <div class="deck-sticky" id="deckSticky">
-    <div class="deck-slide" style="background-image:url('assets/wheatfield.jpg')">
+    <div class="deck-slide" style="background-image:url('assets/hero_wheatfield.jpg')">
       <div class="tag">Meditate inside of masterpieces</div>
     </div>
-    <div class="deck-slide" style="background-image:url('assets/bles_landscape.jpg')">
+    <div class="deck-slide" style="background-image:url('assets/hero_bles_landscape.jpg')">
       <div class="tag">Become part of the story</div>
     </div>
-    <div class="deck-slide scrim" style="background-image:url('assets/wave.jpg')">
+    <div class="deck-slide scrim" style="background-image:url('assets/hero_wave.jpg')">
       <div class="tag">Experience the sensations</div>
     </div>
-    <div class="deck-slide" style="background-image:url('assets/jatte.jpg')">
+    <div class="deck-slide" style="background-image:url('assets/hero_jatte.jpg')">
       <div class="tag">Go beyond mindfulness</div>
     </div>
-    <div class="deck-slide" style="background-image:url('assets/floral.jpg')">
+    <div class="deck-slide" style="background-image:url('assets/hero_floral.jpg')">
       <div class="tag">Into a deeper heartfulness</div>
     </div>
     <div class="deck-credit" id="deckCredit"></div>
@@ -389,8 +418,9 @@
   <div class="cv-sticky">
     <div class="cv-wrap">
       <img class="base" src="assets/monet_grainstack.jpg" alt="Claude Monet, Grainstack (Sun in the Mist)">
-      <div class="cv-blur" id="blurMid"></div>
-      <div class="cv-blur" id="blurEnd"></div>
+      <div class="cv-blur" id="blurA"></div>
+      <div class="cv-blur" id="blurB"></div>
+      <div class="cv-blur" id="blurC"></div>
       <div class="cv-box on" id="cvBox1">
         <h3>1. Step Inside<br>the Canvas</h3>
         <p>Immersive guided meditations happen inside masterpieces, where the sights and sounds come alive to form your multi-sensory sanctuary.</p>
@@ -497,49 +527,40 @@
     <div class="label right">WHY IT WORKS</div>
     <h2>Cultural engagement is one of the most<br>richly-researched and overlooked<br>pillars of wellbeing.</h2>
 
-    <div class="mosaic">
-      <div class="mosaic-panel on" id="panelVG">
-        <img src="assets/vg_cypresses.jpg" alt="Van Gogh, Cypresses">
-        <img src="assets/vg_bedroom.jpg" alt="Van Gogh, The Bedroom">
-        <img src="assets/vg_sunflowers.jpg" alt="Van Gogh, Sunflowers">
-      </div>
-      <div class="mosaic-panel" id="panelMonet">
-        <img src="assets/monet_waterlilies_wiki.jpg" alt="Monet, Water Lilies">
-        <img src="assets/monet_parliament.jpg" alt="Monet, Houses of Parliament, Sunlight Effect">
-        <img src="assets/monet_grainstack.jpg" alt="Monet, Grainstack (Sun in the Mist)">
-      </div>
-    </div>
-
     <p class="blurb">It measurably heals the body and rejuvenates the nervous system. When you engage with art, you explore empathy, human stories, and emotional depth unseen in traditional mindfulness.</p>
 
     <p class="stats-claim">Engaging with art measurably decreases cortisol and increases dopamine &mdash; immediately.</p>
 
     <div class="stats" id="stats">
-      <div class="stat-tile st-burgundy">
-        <div class="big"><span class="count" data-n="32">32</span>%</div>
+      <div class="stat-tile st-burgundy tall">
         <div class="cap">lower risk of depression among people who engage with art every few months</div>
-      </div>
-      <div class="stat-tile st-teal">
-        <div class="big"><span class="count" data-n="48">48</span>%</div>
-        <div class="cap">lower risk of depression when engaging once a month or more</div>
-      </div>
-      <div class="stat-tile st-gold">
-        <div class="big"><span class="count" data-n="49">49</span>%</div>
-        <div class="cap">lower dementia incidence among frequent museum visitors over a 10-year period</div>
+        <div class="dotgrid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="big"><span class="count" data-n="32">32</span>%</div>
       </div>
       <div class="stat-tile st-plum">
+        <div class="cap">lower risk when engaging once a month or more</div>
+        <div class="tris" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="big"><span class="count" data-n="48">48</span>%</div>
+      </div>
+      <div class="stat-tile st-gold">
+        <div class="cap">lower dementia incidence among frequent museum visitors</div>
+        <div class="bars" aria-hidden="true"><i data-h="96"></i><i data-h="49"></i></div>
+        <div class="big"><span class="count" data-n="49">49</span>%</div>
+      </div>
+      <div class="stat-tile st-blush dark-text tall2">
+        <div class="cap">years younger average brain age with regular arts engagement</div>
+        <div class="circlebig" aria-hidden="true"></div>
         <div class="big"><span class="count" data-n="6.2" data-dec="1">6.2</span><span class="unit">&nbsp;YRS</span></div>
-        <div class="cap">younger average brain age with regular arts engagement</div>
       </div>
       <div class="stat-tile quote st-ink">
         <div class="q">&ldquo;Daily participation in the arts should be seen as fundamental to health &mdash; equivalent to getting your five-a-day or doing 10,000 steps.&rdquo;</div>
         <div class="who">Prof. Daisy Fancourt &middot; UCL &middot; WHO Collaborating Centre on Arts &amp; Health</div>
       </div>
-      <div class="stat-tile quote st-blush">
+      <div class="stat-tile quote st-teal">
         <div class="q">&ldquo;Blood flow increased for a beautiful painting just as it increases when you look at somebody you love.&rdquo;</div>
         <div class="who">Prof. Semir Zeki &middot; Neurobiologist, UCL &middot; on brain scans of people looking at art</div>
       </div>
-      <div class="stat-tile wide st-teal">
+      <div class="stat-tile wide st-plum">
         <div class="q">Hospitals in the UK, Canada, and Switzerland have begun prescribing museum visits for mental health and chronic pain.</div>
       </div>
     </div>
@@ -583,8 +604,9 @@
   const motto = document.getElementById('motto');
   const frames = Array.from(document.querySelectorAll('.wall-frame'));
   const canvas = document.getElementById('canvas');
-  const blurMid = document.getElementById('blurMid');
-  const blurEnd = document.getElementById('blurEnd');
+  const blurA = document.getElementById('blurA');
+  const blurB = document.getElementById('blurB');
+  const blurC = document.getElementById('blurC');
   const cvBoxes = [document.getElementById('cvBox1'), document.getElementById('cvBox2'), document.getElementById('cvBox3')];
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // dev hook: /?flat=1 renders all scroll states statically (QA captures)
@@ -646,9 +668,13 @@
   }
 
   // every value below is scrubbed directly from scroll position — scrolling IS the playhead
+  const logoCenter = document.querySelector('.logo-center');
   function drawLogo() {
     const vh = innerHeight;
     const p = (scrollY - logoPage.offsetTop) / (1.2 * vh); // 0..1
+    // the logo itself fades in as the cream page arrives (hero art fades out into it)
+    const enter = clamp01((scrollY - (logoPage.offsetTop - 0.85 * vh)) / (0.7 * vh));
+    logoCenter.style.opacity = enter;
     const mo = clamp01((p - 0.1) / 0.2);
     motto.style.opacity = mo;
     motto.style.transform = 'translateY(' + (10 * (1 - mo)) + 'px)';
@@ -668,11 +694,12 @@
   function drawCanvas() {
     const vh = innerHeight;
     const p = (scrollY - canvas.offsetTop) / (2.2 * vh); // 0..1 across the pinned section
-    blurMid.style.opacity = 1 - clamp01((p - 0.3) / 0.16);   // second third un-blurs under your thumb
-    blurEnd.style.opacity = 1 - clamp01((p - 0.62) / 0.16);  // last third
-    setBox(cvBoxes[0], clamp01((p + 0.42) / 0.3));           // fades in while the canvas enters view
-    setBox(cvBoxes[1], clamp01((p - 0.32) / 0.14));
-    setBox(cvBoxes[2], clamp01((p - 0.64) / 0.14));
+    blurA.style.opacity = 1 - clamp01((p - 0.12) / 0.16); // left third lifts first
+    blurB.style.opacity = 1 - clamp01((p - 0.44) / 0.16);
+    blurC.style.opacity = 1 - clamp01((p - 0.72) / 0.16);
+    setBox(cvBoxes[0], clamp01((p - 0.16) / 0.14));       // each caption arrives with its reveal
+    setBox(cvBoxes[1], clamp01((p - 0.48) / 0.14));
+    setBox(cvBoxes[2], clamp01((p - 0.76) / 0.14));
   }
 
   // journey image boxes: crossfade through their set as the row travels the viewport
@@ -697,6 +724,10 @@
   const statsGrid = document.getElementById('stats');
   const statTiles = statsGrid ? Array.from(statsGrid.children) : [];
   const counters = Array.from(document.querySelectorAll('.count'));
+  const dotEls = Array.from(document.querySelectorAll('.dotgrid i'));
+  const triEls = Array.from(document.querySelectorAll('.tris span'));
+  const barEls = Array.from(document.querySelectorAll('.bars i'));
+  const circleEl = document.querySelector('.circlebig');
   function drawStats() {
     if (!statsGrid) return;
     const vh = innerHeight;
@@ -714,18 +745,12 @@
       const cp = clamp01((p - 0.1 - i * 0.07) / 0.45);
       c.textContent = (n * cp).toFixed(dec);
     });
-  }
-
-  // why-it-works mosaic: Van Gogh panel hands over to Monet as you scroll through the section
-  const whySec = document.getElementById('why');
-  const panels = [document.getElementById('panelVG'), document.getElementById('panelMonet')];
-  function drawWhy() {
-    const rect = whySec.getBoundingClientRect();
-    if (rect.bottom < 0 || rect.top > innerHeight) return;
-    const p = clamp01((innerHeight - rect.top) / (innerHeight + rect.height));
-    const t = clamp01((p - 0.42) / 0.22);
-    panels[0].style.opacity = 1 - t;
-    panels[1].style.opacity = t;
+    // decorations: 13/40 dots = 32%, triangles stack in, 49% bar vs baseline, circle swells
+    const dp = clamp01((p - 0.12) / 0.55);
+    dotEls.forEach((d, i) => d.classList.toggle('lit', i < Math.round(13 * dp)));
+    triEls.forEach((s, i) => s.style.transform = 'scale(' + clamp01((dp - i * 0.18) / 0.5) + ')');
+    barEls.forEach(b => b.style.height = Math.max(6, parseFloat(b.dataset.h) * dp) + '%');
+    if (circleEl) circleEl.style.transform = 'scale(' + dp + ')';
   }
 
   function drawNav() {
@@ -758,16 +783,17 @@
     })(t0);
   }
 
+  // NOTE: the hero deck has no rest points — you can pause anywhere in it
+  // and nothing pulls you onward. Settling begins at the logo page.
   function restPoints() {
     const vh = innerHeight;
     const pts = [];
-    for (let i = 0; i < slides.length; i++) pts.push(deck.offsetTop + i * PER * vh); // each slide fully in
     pts.push(logoPage.offsetTop);              // logo alone on cream
     pts.push(logoPage.offsetTop + vh);         // gallery wall fully assembled
     const cT = canvas.offsetTop, cL = 2.2 * vh;
-    pts.push(cT + 0.16 * cL);                  // canvas stage 1 (left third clear)
-    pts.push(cT + 0.5 * cL);                   // stage 2
-    pts.push(cT + 0.88 * cL);                  // fully revealed
+    pts.push(cT + 0.3 * cL);                   // canvas stage 1 (left third revealed)
+    pts.push(cT + 0.62 * cL);                  // stage 2
+    pts.push(cT + 0.92 * cL);                  // fully revealed
     return pts;
   }
 
@@ -782,7 +808,7 @@
     let target = null;
     if (dirY >= 0) { for (const p of pts) if (p > y) { target = p; break; } }
     else { for (let i = pts.length - 1; i >= 0; i--) if (pts[i] < y) { target = pts[i]; break; } }
-    if (target === null || Math.abs(target - y) > 1.6 * vh) return;
+    if (target === null || Math.abs(target - y) > 0.85 * vh) return;
     glideTo(target);
   }
 
@@ -801,7 +827,7 @@
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => {
-      drawDeck(); drawLogo(); drawCanvas(); drawJourney(); drawWhy(); drawStats(); drawNav();
+      drawDeck(); drawLogo(); drawCanvas(); drawJourney(); drawStats(); drawNav();
       queued = false;
     });
     scheduleSnap();
