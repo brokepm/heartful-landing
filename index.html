@@ -86,7 +86,7 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:5;color:#fff;font-family:var(--body);font-size:11px;letter-spacing:.26em;text-transform:uppercase;opacity:.85;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .scroll-hint::after{content:"";display:block;width:1px;height:26px;background:#fff;margin:8px auto 0;animation:hint 1.8s ease-in-out infinite}
 @keyframes hint{0%,100%{transform:scaleY(.3);transform-origin:top;opacity:.5}50%{transform:scaleY(1);opacity:1}}
-.credit{position:absolute;left:18px;bottom:16px;z-index:5;font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.72);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.credit{position:absolute;left:18px;bottom:16px;right:18px;z-index:5;font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.72);text-shadow:0 1px 8px rgba(0,0,0,.5)}
 
 /* ---------- 2. what we do at Heartful ---------- */
 #demo{background:var(--paper);padding-block:clamp(72px,10vw,120px)}
@@ -99,15 +99,17 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 /* left: the painting, soft — sharp only where the phone reveals it */
 .glance{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.04;background:var(--pastel-sage);isolation:isolate}
 .glance .soft,.glance .sharp{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center}
-.glance .soft{filter:blur(16px) saturate(.62) brightness(1.16);transform:scale(1.08)}
-/* the box should read pastel first and painting second — the blur is texture under the wash */
-.glance .soft::after{content:"";position:absolute;inset:0;background:linear-gradient(165deg,rgba(228,235,227,.72),rgba(235,238,231,.5) 55%,rgba(222,231,226,.62))}
+/* client: "the in-frame part is blurred, the part behind the phone is sharp" —
+   the painting behind stays crisp; it is the phone's screen that softens so the copy reads. */
+.glance .sharp{filter:saturate(.96)}
+.glance .sharp::after{content:"";position:absolute;inset:0;background:linear-gradient(165deg,rgba(232,238,231,.2),rgba(235,238,231,.08) 55%,rgba(226,233,228,.18))}
 .phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50%;max-width:250px;aspect-ratio:9/18.6;border-radius:13%/6.4%;z-index:2;
   box-shadow:0 0 0 2.5px #23262a,0 0 0 4px #6d7075,0 42px 66px -22px rgba(0,0,0,.6);overflow:hidden;background:#000}
-.phone .sharp{border-radius:inherit}
+.phone .soft{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center;
+  border-radius:inherit;filter:blur(9px) saturate(.9) brightness(.92);transform:scale(1.12)}
 .phone .notch{position:absolute;left:50%;top:1.4%;transform:translateX(-50%);width:34%;height:3.1%;border-radius:999px;background:#0c0d0f;z-index:3}
-.phone .veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(12,18,14,.14) 0%,rgba(12,18,14,.5) 58%,rgba(12,18,14,.74) 100%)}
-.phone-copy{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:9% 10% 11%;color:#fff;display:grid;gap:1.05em;
+.phone .veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(14,20,16,.3) 0%,rgba(14,20,16,.42) 45%,rgba(14,20,16,.34) 100%)}
+.phone-copy{position:absolute;left:0;right:0;top:27%;z-index:4;padding:0 11%;color:#fff;display:grid;gap:1.15em;
   font-family:var(--body);font-size:clamp(11px,1.12vw,14px);line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)}
 .phone-copy b{font-weight:700}
 
@@ -233,7 +235,7 @@ footer a{color:inherit}
         <source src="assets/hero/hero_loop.webm" type="video/webm">
         <source src="assets/hero/hero_loop.mp4" type="video/mp4">
       </video>
-      <img src="assets/hero/hero_loop.jpg" alt="Claude Monet, Water Lilies — the surface of the pond, moving">
+      <img src="assets/hero/hero_loop.jpg" alt="Claude Monet, The Water Lily Pond — the surface of the pond, moving">
     </div>
     <div class="hero-text" id="heroText">
       <h1 data-i="0"><span class="word" role="img" aria-label="Heartful"></span>The first art meditation app</h1>
@@ -241,7 +243,7 @@ footer a{color:inherit}
       <h1 data-i="2">To help the world regain mental clarity</h1>
     </div>
     <div class="scroll-hint">Scroll</div>
-    <div class="credit">Claude Monet, Water Lilies · Public domain</div>
+    <div class="credit">Claude Monet, <i>The Water Lily Pond</i>, c. 1917–19 · Albertina, Vienna — Batliner Collection</div>
   </div>
 </section>
 
@@ -256,9 +258,9 @@ footer a{color:inherit}
 
       <!-- left: the painting soft, sharp only where the phone reveals it -->
       <div class="glance" aria-label="The Heartful app">
-        <div class="soft" aria-hidden="true"></div>
+        <div class="sharp" aria-hidden="true"></div>
         <div class="phone">
-          <div class="sharp" aria-hidden="true"></div>
+          <div class="soft" aria-hidden="true"></div>
           <div class="veil" aria-hidden="true"></div>
           <div class="notch" aria-hidden="true"></div>
           <div class="phone-copy">
@@ -417,7 +419,7 @@ footer a{color:inherit}
 <footer>
   <div class="wrap">
     © 2026 Heartful Ltd · Registered in England &amp; Wales No. 16423367 · <a href="mailto:info@heartful.art">Contact</a> · <a href="privacy.html">Privacy Policy</a><br>
-    Artworks are in the public domain (CC0) · The Metropolitan Museum of Art · Wikimedia Commons · Art Institute of Chicago
+    Artworks are in the public domain · The Metropolitan Museum of Art · Art Institute of Chicago · Albertina Museum, Vienna · Wikimedia Commons
   </div>
 </footer>
 
