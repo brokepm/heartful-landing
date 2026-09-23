@@ -8,254 +8,236 @@
 <link rel="icon" type="image/png" href="assets/web/logo_mark_96.png">
 <meta property="og:title" content="Heartful — Meditate Inside of Masterpieces">
 <meta property="og:description" content="Heartful pairs immersive guided meditations with the world's greatest paintings. The first art meditation app.">
-<meta property="og:image" content="assets/web/hero_still.jpg">
+<meta property="og:image" content="assets/hero/hero_loop.jpg">
 <meta property="og:type" content="website">
 </head>
 <body>
 <style>
-@font-face{font-family:'Marcellus';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/marcellus-400-latin.woff2') format('woff2')}
-@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url('assets/fonts/inter-latin.woff2') format('woff2')}
+/* Display face: stand-in for "The Seasons" (commercial; not licensed for web self-hosting).
+   Body face: stand-in for "Century Gothic" (Monotype; same).
+   Logo face: the Heartful wordmark. All three are swapped in one place, below. */
+@font-face{font-family:'Jost';font-style:normal;font-weight:300 700;font-display:swap;src:url('assets/fonts/jost-latin.woff2') format('woff2')}
+@font-face{font-family:'HeartfulDisplay';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/display.woff2') format('woff2')}
+@font-face{font-family:'HeartfulBody';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/body.woff2') format('woff2')}
+@font-face{font-family:'HeartfulBody';font-style:normal;font-weight:700;font-display:swap;src:url('assets/fonts/body-bold.woff2') format('woff2')}
 
 :root{
   --cream:#EFEBE1; --ink:#1c1a17; --muted:#6f6a61; --line:rgba(28,26,23,.12);
-  --white:#FFFFFF; --wall:#9AA79D; --wall-ink:#1e2320;
+  --white:#FFFFFF;
+  /* lighter section palette + pastels (client: "lighter background, bubble boxes a pastel colour") */
+  --paper:#FAF8F4; --pastel-sage:#E4EBE3; --pastel-sky:#E3EAF0; --pastel-blush:#F1E6E1;
   --demo:#24322C; --demo-ink:#EFEBE1;
-  --serif:'Marcellus','Times New Roman',serif; --sans:'Inter',-apple-system,'Helvetica Neue',sans-serif;
-  --gold1:#d7b76a; --gold2:#8a6a2e; --gold3:#c9a45c; --gold4:#5e4619;
+  /* Fallback chains lead with the REAL faces: if Heartful buys the web licences,
+     drop the real files in and the substitutes fall out by themselves.
+     Shipped today: HeartfulDisplay = Gilda Display, HeartfulBody = Poppins. */
+  --display:'HeartfulDisplay','The Seasons','Gilda Display','Jost','Didot','Times New Roman',serif;
+  --body:'HeartfulBody','Century Gothic','Poppins','Jost','Futura','Avenir Next','Helvetica Neue',sans-serif;
+  /* the wordmark ships as vector artwork (Agrandir outlines from Logos/Options 4.pdf),
+     masked so it takes its colour from whatever it sits on — no Agrandir licence needed */
+  --wordmark:url('assets/web/wordmark.svg');
+  --gold1:#d7b76a; --gold2:#8a6a2e;
   --maxw:1180px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden}
+body{background:var(--cream);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img,video{max-width:100%;display:block}
-h1,h2,h3,.display{font-family:var(--serif);font-weight:400;letter-spacing:.04em;text-wrap:balance}
 a{color:inherit}
 .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
-.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
-.pill{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;padding:13px 26px;border-radius:999px;background:var(--ink);color:var(--cream);border:0;cursor:pointer;transition:transform .2s ease,background .2s ease;white-space:nowrap}
+/* Seasons stand-in, all caps — the one title treatment used across the page */
+.display{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.07em;line-height:1.16;text-wrap:balance}
+h1,h2,h3{font-weight:400;text-wrap:balance}
+.pill{display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-size:14px;font-weight:700;letter-spacing:.01em;text-decoration:none;padding:13px 26px;border-radius:999px;background:var(--ink);color:var(--cream);border:0;cursor:pointer;transition:transform .2s ease,background .2s ease;white-space:nowrap}
 .pill:hover{transform:scale(1.04)}
-.pill.light{background:rgba(255,255,255,.94);color:var(--ink)}
-.pill.ghost{background:transparent;border:1.5px solid currentColor;color:inherit}
+.pill.light{background:rgba(255,255,255,.96);color:var(--ink)}
 .pill:focus-visible,a:focus-visible,button:focus-visible{outline:2px solid #1c1a17;outline-offset:3px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
 /* ---------- nav ---------- */
 nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(16px,3vw,32px);transition:background .45s ease,box-shadow .45s ease,color .45s ease}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
-.brand span{font-family:var(--serif);letter-spacing:.3em;font-size:15px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+.brand .wordmark{display:block;width:clamp(96px,9vw,124px);aspect-ratio:200.1113/42.0781;background-color:currentColor;
+  -webkit-mask:var(--wordmark) no-repeat center/contain;mask:var(--wordmark) no-repeat center/contain}
 .mark{width:30px;height:30px;border-radius:7px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
-.nav-right{display:flex;align-items:center;gap:28px}
-.nav-links{display:flex;gap:26px}
-.nav-links a{text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.92}
+.nav-right{display:flex;align-items:center;gap:30px}
+.nav-links{display:flex;gap:28px}
+/* client: "use a slightly livelier text and use mix of lower/upper case" (Calm / Headspace reference) */
+.nav-links a{text-decoration:none;font-family:var(--body);font-size:15px;font-weight:400;letter-spacing:0;text-transform:none;opacity:.9;transition:opacity .2s}
 .nav-links a:hover{opacity:1}
-nav.over-art{background:transparent;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.35)}
-nav.over-art .pill{background:rgba(255,255,255,.92);color:var(--ink);text-shadow:none}
-nav.banner{background:color-mix(in srgb,var(--cream) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+nav.over-art{background:transparent;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.4)}
+nav.over-art .pill{background:rgba(255,255,255,.94);color:var(--ink);text-shadow:none}
+nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--ink);box-shadow:0 1px 0 var(--line)}
 @media (max-width:860px){.nav-links{display:none}}
 
-/* ---------- 1. hero scroll stage ---------- */
-#intro{position:relative;height:340vh}
+/* ---------- 1. hero: one continuous loop, words scroll through ----------
+   The painting never moves with the scroll — only the words do. */
+#intro{position:relative;height:300vh}
 .stage{position:sticky;top:0;height:100svh;min-height:520px;overflow:hidden;background:#0f1214}
-.stage .media{position:absolute;inset:0;transform-origin:50% 44%;will-change:transform}
-.stage .media img,.stage .media video{width:100%;height:100%;object-fit:cover;object-position:50% 44%}
-.stage .media canvas{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .35s}
-.stage.has-frames .media canvas{opacity:1}
-.shimmer{position:absolute;inset:-20%;opacity:0;pointer-events:none;mix-blend-mode:soft-light;
-  background:radial-gradient(ellipse 30% 18% at 30% 40%,rgba(255,255,255,.55),transparent 70%),radial-gradient(ellipse 26% 14% at 70% 62%,rgba(255,255,255,.45),transparent 70%),radial-gradient(ellipse 40% 10% at 50% 78%,rgba(255,255,255,.35),transparent 70%);
-  animation:shimmer 14s ease-in-out infinite alternate;will-change:transform,opacity}
-@keyframes shimmer{0%{transform:translate(-3%,-2%) scale(1)}50%{transform:translate(2%,1.5%) scale(1.06)}100%{transform:translate(3%,-1%) scale(1.02)}}
-.veil{position:absolute;inset:-10%;background:url('assets/web/inside_waterlilies.jpg') center/cover;opacity:0;will-change:opacity,transform;pointer-events:none;
-  -webkit-mask-image:radial-gradient(ellipse 34% 16% at 50% 50%,#000 20%,transparent 72%);mask-image:radial-gradient(ellipse 34% 16% at 50% 50%,#000 20%,transparent 72%)}
-.hero-text{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 6vw;pointer-events:none}
-.hero-text h1{position:absolute;left:0;right:0;padding:0 6vw;color:#fff;font-size:clamp(28px,4.4vw,58px);line-height:1.15;letter-spacing:.08em;text-transform:uppercase;text-shadow:0 2px 28px rgba(0,0,0,.5);opacity:0;will-change:opacity,filter,transform}
-.hero-text h1 small{display:block;font-family:var(--sans);font-size:12px;letter-spacing:.3em;font-weight:600;opacity:.85;margin-bottom:18px}
-.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:5;color:#fff;font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;opacity:.85;text-shadow:0 1px 8px rgba(0,0,0,.5)}
+.stage .media{position:absolute;inset:0}
+.stage .media video,.stage .media img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.stage .media img{position:absolute;inset:0}
+.stage.playing .media img{opacity:0;transition:opacity .6s ease}
+.stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 50% 48%,rgba(0,0,0,.26),transparent 72%)}
+.hero-text{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 6vw;pointer-events:none;z-index:2}
+.hero-text h1{position:absolute;left:0;right:0;padding:0 6vw;color:#fff;font-family:var(--display);font-weight:400;font-size:clamp(22px,3.5vw,46px);line-height:1.2;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 2px 30px rgba(0,0,0,.55);opacity:0;will-change:opacity,transform}
+.hero-text h1 .word{display:block;width:min(52vw,440px);aspect-ratio:200.1113/42.0781;margin:0 auto 30px;background-color:#fff;
+  -webkit-mask:var(--wordmark) no-repeat center/contain;mask:var(--wordmark) no-repeat center/contain;
+  filter:drop-shadow(0 2px 20px rgba(0,0,0,.45))}
+.scroll-hint{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:5;color:#fff;font-family:var(--body);font-size:11px;letter-spacing:.26em;text-transform:uppercase;opacity:.85;text-shadow:0 1px 8px rgba(0,0,0,.5)}
 .scroll-hint::after{content:"";display:block;width:1px;height:26px;background:#fff;margin:8px auto 0;animation:hint 1.8s ease-in-out infinite}
 @keyframes hint{0%,100%{transform:scaleY(.3);transform-origin:top;opacity:.5}50%{transform:scaleY(1);opacity:1}}
-.credit{position:absolute;left:18px;bottom:16px;z-index:5;font-size:10px;letter-spacing:.08em;color:rgba(255,255,255,.7);text-shadow:0 1px 8px rgba(0,0,0,.5)}
-#ripple{position:absolute;width:0;height:0}
+.credit{position:absolute;left:18px;bottom:16px;z-index:5;font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.72);text-shadow:0 1px 8px rgba(0,0,0,.5)}
 
-/* ---------- 2. demo ---------- */
-#demo{padding-block:clamp(72px,10vw,120px)}
-.demo-head{max-width:720px;margin-bottom:40px}
-.demo-head h2{font-size:clamp(28px,3.4vw,42px);line-height:1.15;margin-top:12px}
-.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:stretch}
-.glance{position:relative;border-radius:28px;overflow:hidden;min-height:620px;background:#36423a;isolation:isolate}
-.glance .bg{position:absolute;inset:-6%;background:url('assets/web/cezanne.jpg') center/cover;filter:blur(14px) saturate(.9);opacity:.9;z-index:0}
-.glance .bg::after{content:"";position:absolute;inset:0;background:rgba(20,30,26,.18)}
-.fan{position:absolute;left:50%;top:6%;transform:translateX(-50%);width:100%;height:62%;z-index:1}
-.fan .ph{position:absolute;top:0;left:50%;height:100%;width:auto;border-radius:9%/4.2%;box-shadow:0 30px 60px -18px rgba(0,0,0,.6);transition:transform .6s ease}
-.fan .a{transform:translateX(-50%) translateX(-58%) translateY(6%) rotate(-9deg) scale(.9);z-index:1}
-.fan .b{transform:translateX(-50%);z-index:3}
-.fan .c{transform:translateX(-50%) translateX(58%) translateY(6%) rotate(9deg) scale(.9);z-index:2}
-.glance:hover .a{transform:translateX(-50%) translateX(-66%) translateY(4%) rotate(-11deg) scale(.92)}
-.glance:hover .c{transform:translateX(-50%) translateX(66%) translateY(4%) rotate(11deg) scale(.92)}
-.glance-copy{position:absolute;left:0;right:0;bottom:0;padding:26px 30px 30px;color:#fff;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;font-size:13.5px;line-height:1.45;text-shadow:0 1px 10px rgba(0,0,0,.7);background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.45))}
-.glance-copy b{font-weight:700}
-@media (max-width:860px){.glance-copy{grid-template-columns:1fr;gap:8px}}
-.demo-card{border-radius:28px;background:var(--demo);color:var(--demo-ink);padding:34px 34px 30px;display:flex;flex-direction:column;gap:22px;min-height:620px}
-.demo-card .lead{text-align:center;display:grid;gap:4px}
-.demo-card .lead .eyebrow{color:rgba(239,235,225,.7)}
-.demo-card .lead h3{font-size:clamp(20px,2.2vw,26px)}
-.museum{position:relative;flex:1;border-radius:18px;background:linear-gradient(180deg,#2d3a48,#1f2a36 70%,#1a2430);overflow:hidden;display:grid;place-items:center;padding:8% 10% 7%;box-shadow:inset 0 -40px 60px -30px rgba(0,0,0,.6)}
-.museum .wire{position:absolute;top:0;width:1px;height:20%;background:linear-gradient(#cfd6dd,rgba(207,214,221,.2))}
-.museum .wire.l{left:32%}.museum .wire.r{right:32%}
-.hang{position:relative;width:100%;max-width:440px;transform:translateY(4%)}
-/* frames — carved gilt Baroque, 9-sliced. --bw is the moulding width. */
-.frame{--bw:clamp(14px,1.7vw,26px);position:relative;background:#8a6a2e;box-shadow:0 34px 50px -20px rgba(0,0,0,.7),0 8px 18px -6px rgba(0,0,0,.45)}
+/* ---------- 2. what we do at Heartful ---------- */
+#demo{background:var(--paper);padding-block:clamp(72px,10vw,120px)}
+.demo-head{max-width:860px;margin-bottom:clamp(34px,4.5vw,54px)}
+/* client: title "not that much smaller than subtext below" */
+.demo-head .kicker{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:clamp(22px,2.5vw,32px);line-height:1.2;color:var(--ink);margin-bottom:14px}
+.demo-head h2{font-family:var(--body);font-weight:400;font-size:clamp(26px,3.3vw,42px);line-height:1.22;letter-spacing:-.005em;color:#2a2722}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.6vw,34px);align-items:start}
+
+/* left: the painting, soft — sharp only where the phone reveals it */
+.glance{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.04;background:var(--pastel-sage);isolation:isolate}
+.glance .soft,.glance .sharp{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center}
+.glance .soft{filter:blur(16px) saturate(.62) brightness(1.16);transform:scale(1.08)}
+/* the box should read pastel first and painting second — the blur is texture under the wash */
+.glance .soft::after{content:"";position:absolute;inset:0;background:linear-gradient(165deg,rgba(228,235,227,.72),rgba(235,238,231,.5) 55%,rgba(222,231,226,.62))}
+.phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50%;max-width:250px;aspect-ratio:9/18.6;border-radius:13%/6.4%;z-index:2;
+  box-shadow:0 0 0 2.5px #23262a,0 0 0 4px #6d7075,0 42px 66px -22px rgba(0,0,0,.6);overflow:hidden;background:#000}
+.phone .sharp{border-radius:inherit}
+.phone .notch{position:absolute;left:50%;top:1.4%;transform:translateX(-50%);width:34%;height:3.1%;border-radius:999px;background:#0c0d0f;z-index:3}
+.phone .veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(12,18,14,.14) 0%,rgba(12,18,14,.5) 58%,rgba(12,18,14,.74) 100%)}
+.phone-copy{position:absolute;left:0;right:0;bottom:0;z-index:4;padding:9% 10% 11%;color:#fff;display:grid;gap:1.05em;
+  font-family:var(--body);font-size:clamp(11px,1.12vw,14px);line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.phone-copy b{font-weight:700}
+
+/* right: no bubble — the painting hangs on the page itself */
+.hang-wrap{padding-top:clamp(4px,1.6vw,22px);display:grid;gap:clamp(20px,2.4vw,30px);justify-items:start}
+.hang{position:relative;width:100%}
+.frame{--bw:clamp(16px,2vw,30px);position:relative;background:#8a6a2e;
+  box-shadow:0 40px 60px -26px rgba(28,26,23,.5),0 14px 26px -12px rgba(28,26,23,.3),0 2px 5px rgba(28,26,23,.14)}
 .frame .art{position:relative;overflow:hidden;background:#8a6a2e;aspect-ratio:4/3.2}
 .frame .art img,.frame .art video{width:100%;height:100%;object-fit:cover}
-/* carved and gilded Baroque (the old site's 9-sliced frame). Its slices include a white mat, so the art is pulled outward over it. */
-.frame.baroque{border:var(--bw) solid transparent;border-image:url('assets/web/frame_gold.webp') 329 327 231 328 round}
-.frame.baroque.wide{border-image:url('assets/web/frame_gold_wide.webp') 172 168 166 168 round}
+.frame.baroque{border:var(--bw) solid transparent;border-image:url('assets/web/frame_gold_wide.webp') 172 168 166 168 round}
 .frame.baroque .art{margin:calc(var(--bw) * -.3)}
-.drift img{animation:drift 26s ease-in-out infinite alternate;transform-origin:50% 50%}
-@keyframes drift{0%{transform:scale(1.04) translate(-1%,0)}100%{transform:scale(1.1) translate(1.2%,-1%)}}
-.tap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4}
-.tap .pill{background:rgba(255,255,255,.96);color:var(--ink);box-shadow:0 10px 30px -8px rgba(0,0,0,.6)}
-.label{position:absolute;right:6%;bottom:6%;background:#141b23;color:#cfd6dd;font-size:8.5px;line-height:1.35;padding:6px 8px;border-radius:2px;width:26%;letter-spacing:.02em;box-shadow:0 2px 6px rgba(0,0,0,.5)}
-.catalogue h4{font-family:var(--serif);font-weight:400;font-size:clamp(18px,1.8vw,22px);line-height:1.25;margin-bottom:6px}
-.catalogue p{font-size:13px;line-height:1.5;color:rgba(239,235,225,.75)}
-@media (max-width:860px){.demo-grid{grid-template-columns:1fr}.glance,.demo-card{min-height:520px}}
+.drift img{animation:drift 30s ease-in-out infinite alternate;transform-origin:50% 50%}
+@keyframes drift{0%{transform:scale(1.03) translate(-.8%,0)}100%{transform:scale(1.09) translate(1%,-.8%)}}
+.enter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4}
+.enter .pill{background:rgba(255,255,255,.96);color:var(--ink);box-shadow:0 12px 32px -8px rgba(0,0,0,.55);letter-spacing:.02em}
+/* caption: left aligned, one detail per line, title bold, slightly light grey */
+.catalogue{font-family:var(--body);font-size:clamp(13px,1.15vw,15px);line-height:1.62;color:#7a766e;text-align:left}
+.catalogue b{display:block;font-weight:700;color:#5f5b54}
+.beyond{margin-top:clamp(46px,6vw,78px);text-align:center;font-family:var(--display);text-transform:uppercase;
+  font-size:clamp(17px,2.2vw,30px);letter-spacing:.16em;line-height:1.5;color:#3a3630}
+@media (max-width:860px){.demo-grid{grid-template-columns:1fr}.glance{aspect-ratio:1/1}.hang-wrap{justify-items:stretch}}
 
 /* demo modal */
 .modal{position:fixed;inset:0;z-index:90;background:rgba(10,12,12,.86);display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
-.player{position:relative;width:min(380px,92vw);aspect-ratio:9/19.3;border-radius:40px;overflow:hidden;background:#000;box-shadow:0 0 0 3px #2a2a2c,0 0 0 4px #6a6a6e,0 40px 80px -20px rgba(0,0,0,.8)}
-.player video{width:100%;height:100%;object-fit:cover}
+.player{position:relative;width:min(380px,92vw);aspect-ratio:640/1138;border-radius:40px;overflow:hidden;background:#EFEBE1;box-shadow:0 0 0 3px #2a2a2c,0 0 0 4px #6a6a6e,0 40px 80px -20px rgba(0,0,0,.8)}
+.player video{width:100%;height:100%;object-fit:cover;background:#EFEBE1}
 .gate{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:30px;background:rgba(36,50,44,.94);color:var(--cream);flex-direction:column;gap:18px}
 .gate.show{display:flex}
-.gate h4{font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.25}
-.gate p{font-size:13px;color:rgba(239,235,225,.75)}
-.gate .pill.light{background:var(--cream)}
+.gate h4{font-family:var(--display);text-transform:uppercase;font-weight:400;font-size:19px;line-height:1.35;letter-spacing:.06em}
+.gate p{font-size:13.5px;color:rgba(239,235,225,.78)}
 .close{position:absolute;top:18px;right:18px;z-index:5;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.9);color:#000;font-size:20px;cursor:pointer}
-.placeholder-tag{position:absolute;top:16px;left:16px;z-index:5;background:#F2C14E;color:#1c1a17;font-size:10px;font-weight:700;letter-spacing:.14em;padding:5px 9px;border-radius:999px}
 
-/* ---------- 3. logo wall ---------- */
-#gallery{background:var(--wall);color:var(--wall-ink);padding-block:clamp(56px,7vw,96px) clamp(56px,7vw,100px);position:relative;overflow:hidden}
-#gallery .wrap{max-width:none;padding-inline:clamp(16px,3.5vw,56px)}
-#gallery::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(255,255,255,.14),transparent 70%),linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.18));pointer-events:none}
-.wall-top{position:relative;text-align:center;display:grid;gap:12px;justify-items:center;margin-bottom:clamp(28px,4vw,48px)}
-.wall-top .line{font-family:var(--serif);font-size:clamp(14px,1.5vw,18px);letter-spacing:.22em;text-transform:uppercase;opacity:.85}
-.dots{display:flex;gap:14px}
-.dots i{width:12px;height:12px;border:1.5px solid currentColor;border-radius:50%;opacity:.6}
-.chev{width:12px;height:12px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg);opacity:.6;margin-top:4px}
-.salon{position:relative;width:100%;display:grid;gap:clamp(34px,4vw,64px)}
-.row{display:flex;justify-content:space-evenly;align-items:center;gap:2%}
-.salon .pic{flex:0 0 auto;will-change:transform}
-.salon .frame{--bw:clamp(10px,1.3vw,22px)}
-.salon .frame .art{aspect-ratio:auto}
-.salon .frame .art video{display:block;width:100%;height:auto}
-.centre{text-align:center;display:grid;justify-items:center;gap:12px;flex:0 0 30%;pointer-events:none;z-index:2}
-.centre img{width:clamp(56px,7vw,110px);border-radius:14%;box-shadow:0 14px 30px -10px rgba(0,0,0,.45)}
-.centre h2{font-size:clamp(22px,4.2vw,58px);letter-spacing:.32em;text-transform:uppercase;line-height:1}
-.centre p{font-family:var(--serif);font-size:clamp(11px,1.3vw,17px);letter-spacing:.24em;text-transform:uppercase;opacity:.85}
-@media (max-width:700px){
-  .row{flex-wrap:wrap;justify-content:center;gap:26px 14px}
-  .salon .pic{flex:0 0 44%!important;transform:none!important}
-  .centre{flex:0 0 100%;order:-1;margin-bottom:6px}
-}
-
-/* ---------- 4. science ---------- */
+/* ---------- 3. science ---------- */
 #science{background:var(--white);color:#000;padding-block:clamp(72px,10vw,130px)}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,60px);text-align:center;margin-bottom:clamp(56px,7vw,96px)}
-.stat .n{font-family:var(--serif);font-size:clamp(56px,7.5vw,104px);line-height:1;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.sci-title{text-align:center;font-family:var(--display);text-transform:uppercase;font-size:clamp(28px,4.2vw,58px);letter-spacing:.1em;line-height:1.1;margin-bottom:clamp(44px,6vw,78px)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,56px);text-align:center;margin-bottom:clamp(56px,7vw,96px)}
+.stat .n{font-family:var(--display);font-weight:400;font-size:clamp(56px,7.5vw,104px);line-height:1;letter-spacing:.01em;font-variant-numeric:tabular-nums}
 .stat .n sup{font-size:.42em;vertical-align:top;top:.35em;position:relative;letter-spacing:.04em;margin-left:2px}
-.stat .n .unit{font-size:.36em;letter-spacing:.14em;margin-left:6px}
-.stat p{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;line-height:1.6;max-width:290px;margin:14px auto 16px;color:#111}
-.stat .src{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:9px 16px;border-radius:999px;border:1.5px solid #000;color:#000;transition:background .2s,color .2s}
+.stat .n .unit{font-size:.34em;letter-spacing:.12em;margin-left:8px}
+.stat p{font-family:var(--body);font-size:14.5px;font-weight:400;letter-spacing:0;line-height:1.6;max-width:31ch;margin:16px auto 18px;color:#2b2b2b}
+.stat .src{display:inline-flex;align-items:center;gap:6px;font-family:var(--body);font-size:12.5px;letter-spacing:.02em;text-decoration:none;padding:9px 18px;border-radius:999px;border:1.5px solid #000;color:#000;transition:background .2s,color .2s}
 .stat .src:hover{background:#000;color:#fff}
 .sci-body{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,5vw,72px);align-items:center}
+.sci-fig{margin:0}
+.sci-fig figcaption{margin-top:12px;font-family:var(--body);font-size:11.5px;line-height:1.55;color:#80807d}
 .sci-img{border-radius:26px;overflow:hidden;aspect-ratio:4/5;position:relative;background:#eee}
 .sci-img img{width:100%;height:100%;object-fit:cover}
-.sci-img .note{position:absolute;left:14px;bottom:14px;background:#F2C14E;color:#1c1a17;font-size:10px;font-weight:700;letter-spacing:.12em;padding:6px 10px;border-radius:999px;text-transform:uppercase}
-.sci-text h2{font-size:clamp(30px,4vw,50px);line-height:1.1;margin-bottom:26px;letter-spacing:.01em}
-.sci-text blockquote{font-family:var(--serif);font-size:clamp(18px,1.7vw,22px);line-height:1.45;margin-bottom:18px}
-.sci-text blockquote cite{display:block;font-family:var(--sans);font-style:normal;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#555;margin-top:10px}
-.sci-text p{font-size:15.5px;line-height:1.7;color:#222;max-width:60ch;margin-bottom:14px}
-.sci-text .ref{font-size:12px;color:#666;line-height:1.6}
+.sci-text h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(23px,2.9vw,38px);line-height:1.22;letter-spacing:.055em;margin-bottom:30px}
+.sci-quote{margin-bottom:26px}
+.sci-quote .said{font-family:var(--body);font-size:clamp(17px,1.65vw,21px);line-height:1.5;color:#111;margin-bottom:14px}
+.sci-quote .who{font-family:var(--body);font-size:14px;line-height:1.5;color:#555}
+.sci-quote .who b{display:block;font-weight:700;color:#111}
+.sci-text p{font-family:var(--body);font-size:15.5px;line-height:1.72;color:#242424;max-width:58ch;margin-bottom:22px}
+.sci-text .ref{font-size:12.5px;color:#6b6b6b;line-height:1.6;margin-bottom:8px;max-width:52ch}
 @media (max-width:860px){.stats{grid-template-columns:1fr;gap:44px}.sci-body{grid-template-columns:1fr}.sci-img{aspect-ratio:4/3}}
 
-/* ---------- 5. how it works ---------- */
-#how{padding-block:clamp(72px,10vw,130px)}
-.how-head{text-align:center;margin-bottom:clamp(36px,5vw,60px)}
-.how-head h2{font-size:clamp(32px,4.4vw,56px);line-height:1.1;margin-bottom:12px}
-.how-head p{font-size:clamp(15px,1.5vw,19px);color:var(--muted)}
-.six{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(300px,auto);gap:18px}
-.blk{border-radius:22px;overflow:hidden}
-.blk.text{background:#F6F3EC;padding:34px 32px;display:flex;flex-direction:column;gap:12px;border:1px solid var(--line)}
-.blk.text .k{font-size:12px;letter-spacing:.24em;color:var(--muted)}
-.blk.text h3{font-size:clamp(17px,1.5vw,20px);letter-spacing:.06em;text-transform:uppercase;line-height:1.3}
-.blk.text p{font-size:14px;line-height:1.65;color:#3d3a34}
-.blk.title{display:grid;place-items:center;text-align:center;padding:30px}
-.blk.title h3{font-size:clamp(24px,2.6vw,34px);letter-spacing:.14em;text-transform:uppercase;line-height:1.3}
-.blk.img{position:relative;background:#333;min-height:300px}
-.blk.img img,.blk.img video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.blk.img img{animation:kb 30s ease-in-out infinite alternate}
-@keyframes kb{0%{transform:scale(1.02)}100%{transform:scale(1.14)}}
-@media (max-width:860px){.six{grid-template-columns:1fr 1fr}.blk.title{grid-column:1/-1;order:-1}}
-@media (max-width:520px){.six{grid-template-columns:1fr}}
+/* ---------- 4. how it works ---------- */
+#how{background:var(--paper);padding-block:clamp(72px,10vw,130px)}
+.how-head{text-align:center;margin-bottom:clamp(36px,5vw,58px)}
+.how-head h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(30px,4.2vw,56px);letter-spacing:.09em;line-height:1.1;margin-bottom:14px}
+.how-head p{font-family:var(--body);font-size:clamp(15px,1.5vw,19px);color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,24px)}
+.card{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:3/4.32;background:#2b2b28;box-shadow:0 22px 44px -22px rgba(28,26,23,.45)}
+.card video,.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.1) 38%,rgba(0,0,0,0) 62%)}
+.card .cap{position:absolute;left:0;right:0;top:0;z-index:2;padding:clamp(18px,2vw,28px);color:#fff;font-family:var(--body);text-shadow:0 1px 12px rgba(0,0,0,.55)}
+.card .cap .k{font-size:clamp(15px,1.5vw,19px);opacity:.92;margin-bottom:4px;letter-spacing:.02em}
+.card .cap .t{font-size:clamp(16px,1.6vw,21px);line-height:1.28}
+@media (max-width:760px){.cards{grid-template-columns:1fr}.card{aspect-ratio:3/2.1}.card::after{background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,0) 70%)}}
 
-/* ---------- 6. why art meditation ---------- */
+/* ---------- 5. why art meditation ---------- */
 #why{background:#111311;color:#f2efe8;padding-block:clamp(72px,10vw,130px)}
-.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);align-items:center}
-.why-text h2{font-size:clamp(36px,4.6vw,60px);line-height:1.05;margin-bottom:26px;letter-spacing:.01em}
-.why-text h2 em{font-style:italic}
-.why-text p{font-size:15.5px;line-height:1.75;color:rgba(242,239,232,.82);max-width:56ch;margin-bottom:30px}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,84px);align-items:center}
+.why-text h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(30px,4.2vw,56px);line-height:1.12;margin-bottom:28px;letter-spacing:.075em}
+.why-text p{font-family:var(--body);font-size:15.5px;line-height:1.78;color:rgba(242,239,232,.84);max-width:54ch;margin-bottom:32px}
+.why-text p b{font-weight:700;color:#f7f5ef}
 .feels{list-style:none;display:grid;gap:14px}
-.feels li{display:grid;grid-template-columns:86px 1fr;gap:18px;align-items:center;padding:16px 18px 16px 16px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);transition:background .3s}
-.feels li:hover{background:rgba(255,255,255,.07)}
+.feels li{display:grid;grid-template-columns:86px 1fr;gap:18px;align-items:center;padding:16px 18px 16px 16px;border-radius:20px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.085);transition:background .3s}
+.feels li:hover{background:rgba(255,255,255,.075)}
 .feels img{width:86px;height:104px;object-fit:cover;border-radius:12px;box-shadow:0 12px 26px -12px rgba(0,0,0,.8)}
-.feels .f{font-family:var(--serif);font-size:17px;letter-spacing:.02em;margin-bottom:6px}
-.feels p{font-size:14px;line-height:1.55;color:rgba(242,239,232,.8);margin:0 0 6px}
-.feels span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(242,239,232,.45)}
+.feels .f{font-family:var(--body);font-size:16px;line-height:1.4;margin-bottom:7px;color:#f7f5ef}
+.feels p{font-family:var(--body);font-size:14px;line-height:1.55;color:rgba(242,239,232,.8);margin:0 0 6px}
+.feels span{font-family:var(--body);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(242,239,232,.45)}
 @media (max-width:520px){.feels li{grid-template-columns:64px 1fr}.feels img{width:64px;height:78px}}
 @media (max-width:860px){.why-grid{grid-template-columns:1fr}}
 
-/* ---------- 7. join ---------- */
+/* ---------- 6. join ---------- */
 #join{position:relative;min-height:78svh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
 #join .bg{position:absolute;inset:0;background:url('assets/web/cliffwalk.jpg') center 40%/cover}
 #join .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(0,0,0,.45) 100%)}
 .join-in{position:relative;z-index:1;width:100%;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:end;padding-block:60px 70px}
-.join-in h2{font-size:clamp(38px,5.4vw,72px);line-height:1.05;text-transform:uppercase;letter-spacing:.06em;text-shadow:0 2px 26px rgba(0,0,0,.45)}
-.join-in .sub{font-size:14px;letter-spacing:.04em;margin-top:14px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
-.join-in .fine{font-size:11.5px;opacity:.85;margin-top:12px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.join-in h2{font-family:var(--display);font-size:clamp(34px,5vw,68px);line-height:1.08;text-transform:uppercase;letter-spacing:.07em;text-shadow:0 2px 26px rgba(0,0,0,.45)}
+.join-in .sub{font-family:var(--body);font-size:14.5px;margin-top:16px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.join-in .fine{font-family:var(--body);font-size:12px;opacity:.85;margin-top:12px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
 .wait{display:flex;gap:10px;flex-wrap:wrap}
-.wait input{flex:1;min-width:200px;border-radius:999px;border:0;padding:13px 18px;font:inherit;font-size:14px}
+.wait input{flex:1;min-width:200px;border-radius:999px;border:0;padding:13px 18px;font:inherit;font-family:var(--body);font-size:14px}
 @media (max-width:860px){.join-in{grid-template-columns:1fr}}
 
-footer{padding:36px 0 70px;font-size:11.5px;color:var(--muted);line-height:1.8;text-align:center}
+footer{background:var(--cream);padding:36px 0 70px;font-family:var(--body);font-size:12px;color:var(--muted);line-height:1.85;text-align:center}
 footer a{color:inherit}
-
 </style>
 
-<svg id="ripple" aria-hidden="true"><filter id="rippleF" x="-20%" y="-20%" width="140%" height="140%"><feTurbulence id="turb" type="fractalNoise" baseFrequency="0.012 0.03" numOctaves="1" seed="3"/><feDisplacementMap id="disp" in="SourceGraphic" in2="turb" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
-
 <nav id="nav" class="over-art">
-  <a class="brand" href="#intro"><img class="mark" src="assets/web/logo_mark_96.png" alt=""><span>HEARTFUL</span></a>
+  <a class="brand" href="#intro"><img class="mark" src="assets/web/logo_mark_96.png" alt=""><span class="wordmark" role="img" aria-label="Heartful"></span></a>
   <div class="nav-right">
     <div class="nav-links">
-      <a href="#demo">Demo</a>
-      <a href="#science">The Science</a>
+      <a href="#demo">Try the demo</a>
+      <a href="#science">Science and art</a>
       <a href="#how">How it works</a>
-      <a href="#why">Why Art Meditation</a>
+      <a href="#why">Why art meditation</a>
     </div>
-    <a class="pill" href="#join">Join waitlist</a>
+    <a class="pill" href="#join">Join the waitlist</a>
   </div>
 </nav>
 
-<!-- 1. HOMEPAGE INTRO -->
+<!-- 1. ENTRY LANDING — one continuous animated scene, words scroll through it -->
 <section id="intro" aria-label="Introduction">
   <div class="stage" id="stage">
-    <div class="media" id="media">
-      <img src="assets/web/hero_still.jpg" alt="A visitor stands in a museum gallery before a vast Monet Water Lilies canvas" fetchpriority="high">
-      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="media">
+      <video id="heroVideo" poster="assets/hero/hero_loop.jpg" muted loop playsinline autoplay preload="auto" aria-hidden="true">
+        <source src="assets/hero/hero_loop.webm" type="video/webm">
+        <source src="assets/hero/hero_loop.mp4" type="video/mp4">
+      </video>
+      <img src="assets/hero/hero_loop.jpg" alt="Claude Monet, Water Lilies — the surface of the pond, moving">
     </div>
-    <div class="shimmer" id="shimmer"></div>
-    <div class="veil" id="veil"></div>
     <div class="hero-text" id="heroText">
-      <h1 data-i="0"><small>HEARTFUL</small>The First Art Meditation App</h1>
-      <h1 data-i="1">Combining Art and Neuroscience</h1>
+      <h1 data-i="0"><span class="word" role="img" aria-label="Heartful"></span>The first art meditation app</h1>
+      <h1 data-i="1">Combining art and neuroscience</h1>
       <h1 data-i="2">To help the world regain mental clarity</h1>
     </div>
     <div class="scroll-hint">Scroll</div>
@@ -263,159 +245,156 @@ footer a{color:inherit}
   </div>
 </section>
 
-<!-- 2. WHAT OUR APP DOES + DEMO -->
+<!-- 2. WHAT WE DO AT HEARTFUL -->
 <section id="demo">
   <div class="wrap">
     <div class="demo-head">
-      <div class="eyebrow">What Heartful does</div>
-      <h2>Immersive guided meditations, inside the world's masterpieces.</h2>
+      <div class="kicker">What we do at Heartful</div>
+      <h2>Immersive guided meditations, inside the world’s great masterpieces</h2>
     </div>
     <div class="demo-grid">
-      <div class="glance" aria-label="The app at a glance">
-        <div class="bg"></div>
-        <div class="fan" aria-label="Screens from the Heartful app">
-          <img class="ph a" src="assets/web/app_gal_1.jpg" alt="Heartful app — gallery, select a mood">
-          <img class="ph b" src="assets/web/app_home_2.jpg" alt="Heartful app — Water Lilies meditation, start">
-          <img class="ph c" src="assets/web/app_med_2.jpg" alt="Heartful app — the painting on the wall">
-        </div>
-        <div class="glance-copy">
-          <div>Designed using cutting-edge <b>art psychology</b> research to calm and nourish</div>
-          <div><b>Immersive</b> guided meditations</div>
-          <div>Where masterpieces become your <b>multi-sensory</b> sanctuary</div>
+
+      <!-- left: the painting soft, sharp only where the phone reveals it -->
+      <div class="glance" aria-label="The Heartful app">
+        <div class="soft" aria-hidden="true"></div>
+        <div class="phone">
+          <div class="sharp" aria-hidden="true"></div>
+          <div class="veil" aria-hidden="true"></div>
+          <div class="notch" aria-hidden="true"></div>
+          <div class="phone-copy">
+            <div>Designed using <b>art psychology</b> research to calm and nourish</div>
+            <div>Where masterpieces become your <b>multi-sensory</b> sanctuary</div>
+          </div>
         </div>
       </div>
-      <div class="demo-card">
-        <div class="lead">
-          <div class="eyebrow">Try our demo</div>
-          <h3>Enter the world of Paul Cézanne</h3>
-        </div>
-        <div class="museum">
-          <i class="wire l"></i><i class="wire r"></i>
-          <div class="hang">
-            <div class="frame baroque wide drift"><div class="art"><img src="assets/web/cezanne.jpg" alt="Cézanne, Mont Sainte-Victoire and the Viaduct of the Arc River Valley"></div></div>
-            <div class="tap"><button class="pill" id="openDemo" type="button">Tap to enter</button></div>
+
+      <!-- right: no bubble — the painting hangs on the page itself -->
+      <div class="hang-wrap">
+        <div class="hang">
+          <div class="frame baroque drift">
+            <div class="art"><img src="assets/web/cezanne.jpg" alt="Paul Cézanne, Mont Sainte-Victoire and the Viaduct of the Arc River Valley"></div>
           </div>
-          <div class="label">Paul Cézanne<br>Mont Sainte-Victoire and the Viaduct of the Arc River Valley, 1882–85<br>Oil on canvas</div>
+          <div class="enter"><button class="pill" id="openDemo" type="button">Enter</button></div>
         </div>
         <div class="catalogue">
-          <h4>Mont Sainte-Victoire and the Viaduct of the Arc River Valley</h4>
-          <p>Paul Cézanne (1839–1906) · 1882–85 · Oil on canvas · The Metropolitan Museum of Art</p>
+          <b>Mont Sainte-Victoire and the Viaduct of the Arc River Valley</b>
+          Paul Cézanne (1839–1906)<br>
+          c.1882–85<br>
+          Oil on canvas<br>
+          The Metropolitan Museum of Art
         </div>
       </div>
+
     </div>
+    <p class="beyond">Go beyond mindfulness. Into a deeper Heartfulness.</p>
   </div>
 </section>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Heartful demo">
   <div class="player">
-        <button class="close" id="closeDemo" type="button" aria-label="Close">×</button>
-    <video id="demoVideo" src="assets/demo/demo_cezanne.mp4" poster="assets/demo/demo_poster.jpg" playsinline controls></video>
+    <button class="close" id="closeDemo" type="button" aria-label="Close">×</button>
+    <video id="demoVideo" src="assets/demo/demo_cezanne.mp4" poster="assets/demo/demo_poster.jpg" playsinline controls preload="none"></video>
     <div class="gate" id="gate">
-      <h4>To unlock the full meditation and the benefits of art meditation, join the waitlist.</h4>
+      <h4>To unlock the full meditation, join the waitlist.</h4>
       <p>The primer and transition are free to try. The meditation itself lives in Heartful, arriving soon.</p>
       <a class="pill light" href="#join">Join the waitlist</a>
     </div>
   </div>
 </div>
 
-<!-- 3. LOGO WALL -->
-<section id="gallery" aria-label="Heartful — Masterpieces for the Mind">
-    <div class="wrap">
-    <div class="wall-top">
-      <div class="line">Go beyond mindfulness. Into a deeper Heartfulness.</div>
-      <div class="chev" aria-hidden="true"></div>
-    </div>
-    <div class="salon" id="salon"></div>
-  </div>
-</section>
-
-<!-- 4. THE SCIENCE -->
+<!-- 3. SCIENCE AND ART -->
 <section id="science">
   <div class="wrap">
+    <h2 class="sci-title">Science and art</h2>
     <div class="stats" id="stats">
       <div class="stat">
         <div class="n"><span data-n="48">0</span><sup>%</sup></div>
-        <p>Lower risk of depression among people who engage with art once a month or more</p>
+        <p>48% lower risk of depression among people who engage with art once a month or more.</p>
         <a class="src" href="https://pubmed.ncbi.nlm.nih.gov/30560742/" target="_blank" rel="noopener">The study ↗</a>
       </div>
       <div class="stat">
         <div class="n"><span data-n="6.2" data-dec="1">0</span><span class="unit">YRS</span></div>
-        <p>Younger measured brain age in people who practise visual art, versus matched non-artists</p>
+        <p>Visual artists recorded a brain age 6.2 years younger than matched non-artists.</p>
         <a class="src" href="https://www.nature.com/articles/s41467-025-64173-9" target="_blank" rel="noopener">The study ↗</a>
       </div>
       <div class="stat">
         <div class="n"><span data-n="49">0</span><sup>%</sup></div>
-        <p>Lower dementia incidence among people who visit museums every few months or more</p>
+        <p>49% lower dementia incidence among people who visit museums every few months or more.</p>
         <a class="src" href="https://www.cambridge.org/core/journals/the-british-journal-of-psychiatry/article/cultural-engagement-and-cognitive-reserve-museum-attendance-and-dementia-incidence-over-a-10year-period/0D5F792DD1842E97AEFAD1274CCCC9B9" target="_blank" rel="noopener">The study ↗</a>
       </div>
     </div>
     <div class="sci-body">
-      <div class="sci-img">
-        <img src="assets/web/grainstack.jpg" alt="Claude Monet, Grainstack" style="object-position:60% 50%">
-      </div>
+      <figure class="sci-fig">
+        <div class="sci-img">
+          <img src="assets/web/science_art.jpg" alt="James McNeill Whistler, Violet and Silver — The Deep Sea: bands of teal sky, violet cloud and deep blue-green water">
+        </div>
+        <figcaption>James McNeill Whistler, <i>Violet and Silver — The Deep Sea</i>, 1893 · Art Institute of Chicago · CC0</figcaption>
+      </figure>
       <div class="sci-text">
-        <h2>Cultural engagement measurably heals the body and rejuvenates the nervous system.</h2>
-        <blockquote>“We didn't realize until we did these studies just how powerful an effect art has on the brain.”<cite>Semir Zeki · Neurobiologist, University College London</cite></blockquote>
-        <p>Scans measured the brains of individuals while they were shown images of paintings. According to the scans, “when you look at art… the blood flow increased for a beautiful painting just as it increases when you look at somebody you love.” The reaction was immediate. Pleasure measurably increases, and a lunchtime visit to a gallery has been shown to significantly lower cortisol.</p>
-        <p class="ref">Ishizu, T. &amp; Zeki, S. (2011). <i>Toward a brain-based theory of beauty.</i> PLoS ONE 6(7). · Clow, A. &amp; Fredhoi, C. (2006). <i>Normalisation of salivary cortisol levels and self-report stress by a brief lunchtime visit to an art gallery by London City workers.</i> Journal of Holistic Healthcare 3(2). · See also Zeki, S. (1999). <i>Inner Vision: An Exploration of Art and the Brain.</i> Oxford University Press.</p>
+        <h2>Art engagement measurably heals the body and rejuvenates the nervous system</h2>
+        <div class="sci-quote">
+          <div class="said">“What we didn’t realise until we did these studies is just how powerful the effect on the brain is.”</div>
+          <div class="who"><b>Semir Zeki</b>Neurobiologist<br>Prof. of Neuroaesthetics, UCL</div>
+        </div>
+        <p>Scans measured the brains of individuals while they were shown images of paintings. According to the brain scans, “when you look at art… the blood flow increased for a beautiful painting just as it increases when you look at somebody you love.” Cortisol levels drop, and pleasure sensations measurably increase.</p>
+        <p class="ref">Ishizu, T. &amp; Zeki, S. (2011). <i>Toward a brain-based theory of beauty.</i> PLoS ONE 6(7).</p>
+        <p class="ref">Zeki, S. (1999). <i>Inner Vision: An Exploration of Art and the Brain.</i> Oxford University Press.</p>
+        <p class="ref">Clow, A. &amp; Fredhoi, C. (2006). <i>Normalisation of salivary cortisol levels and self-report stress by a brief lunchtime visit to an art gallery.</i> Journal of Holistic Healthcare 3(2).</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 5. HOW IT WORKS -->
+<!-- 4. HOW IT WORKS -->
 <section id="how">
   <div class="wrap">
     <div class="how-head">
       <h2>How it works</h2>
-      <p>The portal to history's great masterpieces is in your pocket.</p>
+      <p>The portal to history’s great masterpieces is in your pocket</p>
     </div>
-    <div class="six">
-      <article class="blk text">
-        <div class="k">01</div><h3>Wander our galleries</h3>
-        <p>Explore a collection of pieces curated by our team of art historians from Oxford University, Sotheby's, and Christie's. From Monet to Titian to Hokusai, each piece is chosen for its meditative depth and unique message.</p>
+    <div class="cards">
+      <article class="card">
+        <video src="assets/how/how_01_hokusai.mp4" poster="assets/how/how_01_hokusai.jpg" muted loop playsinline autoplay preload="none"></video>
+        <div class="cap"><div class="k">01</div><div class="t">Wander our galleries</div></div>
       </article>
-      <div class="blk title"><h3>Three steps into a masterpiece</h3></div>
-      <article class="blk text">
-        <div class="k">03</div><h3>Meditate inside the artwork</h3>
-        <p>The sights and sounds of the painting come alive, and you are led into an immersive guided meditation. Bask in the artwork's unique story and sensation. The gems you find in this little world are yours to keep.</p>
+      <article class="card">
+        <video src="assets/how/how_02_renoir.mp4" poster="assets/how/how_02_renoir.jpg" muted loop playsinline autoplay preload="none"></video>
+        <div class="cap"><div class="k">02</div><div class="t">Enrich and hone your personal taste</div></div>
       </article>
-      <div class="blk img"><img src="assets/web/hokusai.jpg" alt="Hokusai, The Inume Pass in Kai Province" style="object-position:30% 55%"></div>
-      <article class="blk text">
-        <div class="k">02</div><h3>Enrich and hone your personal taste</h3>
-        <p>A short primer reveals hidden details and stories about the artwork. Offered as guided, bite-sized enrichments, curated knowledge opens the door to the full experience. You get to know the space and story, just before you enter it.</p>
+      <article class="card">
+        <video src="assets/how/how_03_friedrich.mp4" poster="assets/how/how_03_friedrich.jpg" muted loop playsinline autoplay preload="none"></video>
+        <div class="cap"><div class="k">03</div><div class="t">Meditate inside the artwork</div></div>
       </article>
-      <div class="blk img"><video src="assets/wall/renoir_seashore.mp4" poster="assets/wall/renoir_seashore.jpg" muted loop playsinline autoplay style="object-position:55% 30%"></video></div>
     </div>
   </div>
 </section>
 
-<!-- 6. WHY ART MEDITATION -->
+<!-- 5. WHY ART MEDITATION -->
 <section id="why">
   <div class="wrap why-grid">
     <div class="why-text">
-      <h2>Why <em>Art</em> Meditation?</h2>
-      <p>Art is human stories. It is empathy, how we sing our song to each other. By connecting you to a personalised selection of artworks, indeed, pieces made by real people trying to express their own feelings and emotions, these art meditations have the capacity to truly understand you on a profound level. Using art, we introduce a narrative variety and emotional depth unseen in traditional mindfulness.</p>
+      <h2>Why art meditation?</h2>
+      <p>Art is human stories. It is empathy. Works made by real people trying to express real feelings, emotions, and experiences. By curating you a personalised selection of artworks, our immersive meditations have the unique capacity to understand you on a profound level. It taps into a universal human experience. Through art, we introduce a narrative <b>variety and emotional depth unseen in traditional mindfulness.</b></p>
       <a class="pill light" href="#join">Join the waitlist</a>
     </div>
     <ul class="feels" aria-label="What you might be feeling, and where Heartful takes you">
       <li>
-        <img src="assets/web/vg_olivetrees.jpg" alt="Van Gogh, Olive Trees">
-        <div><div class="f">“I'm feeling so tired and sad today.”</div><p>Look at Vincent van Gogh, who channelled his depression into beauty.</p><span>Van Gogh · Olive Trees, 1889</span></div>
+        <img src="assets/web/vg_olivetrees.jpg" alt="Van Gogh, Olive Trees" style="object-position:50% 50%">
+        <div><div class="f">“I’m feeling so tired and sad today.”</div><p>Look at Vincent van Gogh, who channelled his depression into beauty.</p><span>Van Gogh · Olive Trees, 1889</span></div>
       </li>
       <li>
-        <img src="assets/web/friedrich.jpg" alt="Friedrich, Two Men Contemplating the Moon">
+        <img src="assets/web/friedrich.jpg" alt="Friedrich, Two Men Contemplating the Moon" style="object-position:50% 38%">
         <div><div class="f">“I miss someone today.”</div><p>Caspar David Friedrich painted <i>Two Men Contemplating the Moon</i> when he lost his young apprentice. A reminder that those you love are always with you.</p><span>Friedrich · c. 1825–30</span></div>
       </li>
       <li>
-        <img src="assets/web/tiepolo.jpg" alt="Tiepolo, Allegory of the Planets and Continents">
+        <img src="assets/web/tiepolo.jpg" alt="Tiepolo, Allegory of the Planets and Continents" style="object-position:50% 45%">
         <div><div class="f">“I want to feel inspired.”</div><p>One thinks of Tiepolo, who never stopped inventing exciting ways to show traditional subjects. A Venetian trail-blazer.</p><span>Tiepolo · Allegory of the Planets and Continents, 1752</span></div>
       </li>
     </ul>
   </div>
 </section>
 
-<!-- JOIN -->
+<!-- 6. JOIN -->
 <section id="join">
   <div class="bg"></div>
   <div class="wrap join-in">
@@ -442,86 +421,56 @@ footer a{color:inherit}
   </div>
 </footer>
 
-
-
 <script>
 (function(){
   const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
   const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
-  /* ---------- nav state ---------- */
+  /* ---------- nav ---------- */
   const nav=$('#nav'), intro=$('#intro');
   function navState(){
-    const y=scrollY, stageEnd=intro.offsetTop+intro.offsetHeight-innerHeight;
-    if(y<stageEnd-40){nav.className='over-art'}else{nav.className='banner'}
+    const stageEnd=intro.offsetTop+intro.offsetHeight-innerHeight;
+    nav.className = scrollY < stageEnd-40 ? 'over-art' : 'banner';
   }
   addEventListener('scroll',navState,{passive:true}); navState();
 
-  /* ---------- hero scroll stage ----------
-     A procedural 2.5D dolly drawn on one canvas from three sharp layers: the gallery (3200 px, real painting
-     pasted in), the visitor (cut out, on her own nearer plane), and the painting itself (4044 px scan) drawn
-     exactly where it hangs. As the camera pushes in, the visitor grows faster than the wall and slides out below
-     the frame — we pass over her head — and once the canvas fills the screen we are looking at the full-resolution
-     scan, so the image only gets sharper the closer we get. No video frames, so nothing to buffer or step. */
-  const stage=$('#stage'), media=$('#media'), veil=$('#veil'), texts=$$('#heroText h1'), disp=$('#disp'), turb=$('#turb'), shimmer=$('#shimmer');
-  const cv=$('#heroCanvas'), cx=cv.getContext('2d',{alpha:false});
-  const still=$('.stage .media img');
-  const META={painting:[0.110107,0.066260,0.890869,0.762860],woman:[0.464844,0.490846,0.529541,0.941151]};
-  const CX=0.5, CY=0.415;                 // vanishing point: the centre of the canvas on the wall
-  const P1=0.55;                          // scroll fraction at which the painting fills the frame
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), ease=t=>t<.5?2*t*t:-1+(4-2*t)*t;
-  let bg=null, woman=null, painting=null, framesOn=false, lastDrawn=-1;
-  function sizeCanvas(){ const r=stage.getBoundingClientRect(), d=Math.min(devicePixelRatio||1,2); cv.width=Math.round(r.width*d); cv.height=Math.round(r.height*d); lastDrawn=-1; }
-  // base cover-fit of the gallery image (object-position 50% 44%), returns [x,y,w,h] in canvas px
-  function baseRect(){ const w=cv.width,h=cv.height, iw=3200, ih=1792; const sc=Math.max(w/iw,h/ih); const dw=iw*sc, dh=ih*sc; return [(w-dw)/2,(h-dh)*.44,dw,dh]; }
-  // zoom a rect about the vanishing point by z
-  function zoomRect(r,z){ const [x,y,w,h]=r; const px=x+w*CX, py=y+h*CY; return [px-(px-x)*z, py-(py-y)*z, w*z, h*z]; }
-  function zOf(p){ // 1 -> 1.55 (canvas fills the frame on any aspect) over the walk-in, then 1.55 -> 3.4 inside
-    return p<P1 ? 1+ease(p/P1)*0.55 : 1.55+ease((p-P1)/(1-P1))*1.85; }
-  function render(p){
-    if(!framesOn) return; const key=p.toFixed(4); if(key===lastDrawn) return; lastDrawn=key;
-    const z=zOf(p), R=zoomRect(baseRect(),z); const [x,y,w,h]=R;
-    const pr=[x+w*META.painting[0], y+h*META.painting[1], w*(META.painting[2]-META.painting[0]), h*(META.painting[3]-META.painting[1])];
-    // gallery (only needed while any wall/floor is visible)
-    if(pr[0]>0||pr[1]>0||pr[0]+pr[2]<cv.width||pr[1]+pr[3]<cv.height) cx.drawImage(bg,x,y,w,h);
-    // the painting, full-resolution scan, exactly where it hangs
-    cx.drawImage(painting||bg, ...(painting?pr:[x,y,w,h]));
-    // the visitor: nearer plane, grows faster, slides down and out, fades as we pass over her head
-    if(woman){ const zw=1+(z-1)*3.2, Rw=zoomRect(baseRect(),zw); const [wx,wy,ww,wh]=Rw; const drop=(z-1)*0.55*cv.height;
-      const a=clamp(1-(z-1.22)/0.16,0,1); if(a>0){ cx.globalAlpha=a;
-        cx.drawImage(woman, wx+ww*META.woman[0], wy+wh*META.woman[1]+drop, ww*(META.woman[2]-META.woman[0]), wh*(META.woman[3]-META.woman[1])); cx.globalAlpha=1; } }
-  }
-  async function bitmap(src){ const r=await fetch(src); return createImageBitmap(await r.blob()); }
-  (async()=>{
-    sizeCanvas();
-    bg=await bitmap('assets/web/hero_bg.jpg'); woman=await bitmap('assets/web/hero_woman.png');
-    framesOn=true; stage.classList.add('has-frames'); render(cur);
-    bitmap('assets/web/inside_waterlilies.jpg').then(b=>{painting=b; lastDrawn=-1; render(cur);}).catch(()=>{});
-  })();
-  addEventListener('resize',()=>{ sizeCanvas(); render(cur); });
-
-  // smoothed scroll progress: target follows the scrollbar, cur eases toward it every frame
-  let target=0, cur=0, running=false, wasInside=false;
-  const pNow=()=>clamp(scrollY/(intro.offsetHeight-innerHeight),0,1);
+  /* ---------- hero ----------
+     The scene is a continuous loop and is never touched by the scroll. Only the three lines move:
+     each scrolls up into place, holds, and scrolls out. Scroll position is eased every frame so the
+     type never steps. */
+  const stage=$('#stage'), hero=$('#heroVideo'), texts=$$('#heroText h1');
+  // A meditation app should not force motion on anyone who has asked for less of it:
+  // with reduced-motion the loop never starts and the still poster stands in.
+  if(hero && !reduce){
+    const lit=()=>stage.classList.add('playing');
+    hero.addEventListener('playing',lit); hero.addEventListener('loadeddata',()=>{ if(hero.readyState>=2) lit(); });
+    const kick=()=>hero.play().then(lit).catch(()=>{});
+    kick(); addEventListener('click',kick,{once:true}); addEventListener('touchstart',kick,{once:true,passive:true});
+  } else if(hero){ hero.removeAttribute('autoplay'); hero.pause(); }
+  // bands are [in, hold-start, hold-end, out] as a fraction of the hero's scroll length
+  const BANDS=[[0,0,.20,.28],[.30,.38,.54,.62],[.64,.72,.92,1]];
+  const TRAVEL=46;
   function overlays(p){
-    const bands=[[0,.24],[.30,.52],[.62,1]]; let veilA=0;
-    texts.forEach((t,i)=>{ const [x0,x1]=bands[i]; let o=0;
-      if(p>=x0&&p<=x1){ const x=(p-x0)/(x1-x0); o = x<.18? x/.18 : x>.82 ? (1-x)/.18 : 1; }
-      if(i===0&&p<=.02) o=1;
-      t.style.opacity=o; t.style.transform=`translateY(${(1-o)*10}px)`;
-      if(!reduce) t.style.filter=o>0&&o<1?'url(#rippleF)':'none'; });
-    [[.23,.31],[.51,.62]].forEach(([g0,g1])=>{ if(p>g0-.02&&p<g1+.02){ const m=(g0+g1)/2, d=Math.abs(p-m)/((g1-g0)/2+.02); veilA=Math.max(veilA,1-d); }});
-    veil.style.opacity=(veilA*.8).toFixed(3);
-    veil.style.transform=`translate(${(p*-4).toFixed(2)}%, ${(Math.sin(p*9)*2).toFixed(2)}%) scale(${(1.05+veilA*.08).toFixed(3)})`;
-    disp.setAttribute('scale',(veilA*38).toFixed(1));
-    turb.setAttribute('baseFrequency',`${(0.012+veilA*.01).toFixed(4)} ${(0.03+veilA*.02).toFixed(4)}`);
-    const inside=p>P1; if(inside!==wasInside){ wasInside=inside; shimmer.style.transition='opacity .8s'; shimmer.style.opacity=inside&&!reduce?'.55':'0'; }
-    if(!framesOn) media.style.transform=`scale(${zOf(p).toFixed(4)})`; else media.style.transform='none';
+    texts.forEach((t,i)=>{
+      const [a,b,c,d]=BANDS[i];
+      let o=0, y=0;
+      if(p<a){ o=0; y=TRAVEL; }
+      else if(p<b){ const k=(p-a)/(b-a||1); o=k; y=TRAVEL*(1-k); }
+      else if(p<=c){ o=1; y=0; }
+      else if(p<=d){ const k=(p-c)/(d-c||1); o=1-k; y=-TRAVEL*k; }
+      else { o=0; y=-TRAVEL; }
+      if(i===0&&p<=.001){ o=1; y=0; }
+      t.style.opacity=o.toFixed(3);
+      t.style.transform=`translate3d(0,${y.toFixed(1)}px,0)`;
+    });
   }
+  let target=0, cur=0, running=false;
+  const pNow=()=>clamp(scrollY/Math.max(1,intro.offsetHeight-innerHeight),0,1);
   function tick(){
     const d=target-cur;
-    if(Math.abs(d)<0.0004){ cur=target; render(cur); overlays(cur); running=false; return; }
-    cur+=d*(reduce?1:0.16); render(cur); overlays(cur); requestAnimationFrame(tick);
+    if(Math.abs(d)<0.0004){ cur=target; overlays(cur); running=false; return; }
+    cur+=d*(reduce?1:0.16); overlays(cur); requestAnimationFrame(tick);
   }
   function onScroll(){ target=pNow(); if(!running){ running=true; requestAnimationFrame(tick); } }
   addEventListener('scroll',onScroll,{passive:true}); addEventListener('resize',onScroll);
@@ -529,49 +478,37 @@ footer a{color:inherit}
 
   /* ---------- demo modal ---------- */
   const modal=$('#modal'), dv=$('#demoVideo'), gate=$('#gate');
-  $('#openDemo').addEventListener('click',()=>{ modal.classList.add('open'); gate.classList.remove('show'); dv.currentTime=0; dv.play().catch(()=>{}); });
+  // the film is ~11 MB — it must not be fetched until someone actually asks for it
+  $('#openDemo').addEventListener('click',()=>{
+    modal.classList.add('open'); gate.classList.remove('show');
+    if(dv.preload==='none'){ dv.preload='auto'; dv.load(); }
+    dv.currentTime=0; dv.play().catch(()=>{});
+  });
   function closeDemo(){ modal.classList.remove('open'); dv.pause(); }
   $('#closeDemo').addEventListener('click',closeDemo);
   modal.addEventListener('click',e=>{ if(e.target===modal) closeDemo(); });
   addEventListener('keydown',e=>{ if(e.key==='Escape') closeDemo(); });
   dv.addEventListener('ended',()=>gate.classList.add('show'));
 
-  /* ---------- logo wall ---------- */
-  const salon=$('#salon');
-  // three rows, widths in % of the wall; each row is a flex line so frames can never overlap
-  // [loop, width %, parallax depth] — European paintings only, all in the carved gilt frame
-  const rows=[
-    [['renoir_seashore',27,-26],['titian_clouds',24,18],['pissarro_tuileries',27,-14]],
-    [['titian_madonna',11,30],['veronese_full',14,-18],'centre',['veronese_horse',15,-22],['reni_immaculate',12,26]],
-    [['joshua_storm',15,26],['renoir_moulinhuet',34,-12],['joshua_disc',15,22]],
-  ];
-  const pics=[];
-  rows.forEach(r=>{
-    const row=document.createElement('div'); row.className='row';
-    r.forEach(it=>{
-      if(it==='centre'){ row.insertAdjacentHTML('beforeend','<div class="centre"><img src="assets/web/logo_mark.png" alt=""><h2>Heartful</h2><p>Masterpieces for the Mind</p></div>'); return; }
-      const [f,w,depth]=it; const d=document.createElement('div'); d.className='pic'; d.style.flexBasis=w+'%'; d.dataset.depth=depth;
-      d.innerHTML=`<div class="frame baroque"><div class="art"><video src="assets/wall/${f}.mp4" poster="assets/wall/${f}.jpg" muted loop playsinline autoplay preload="auto"></video></div></div>`;
-      row.appendChild(d); pics.push(d);
-    });
-    salon.appendChild(row);
-  });
-  // parallax: each frame drifts a little at its own depth as the wall passes through the viewport (row gaps are larger than the travel, so nothing can touch)
-  const gallery=$('#gallery'); let pTick=false;
-  function parallax(){
-    const r=gallery.getBoundingClientRect(); const t=clamp((innerHeight-r.top)/(innerHeight+r.height),0,1)-.5;
-    pics.forEach(d=>{ const k=+d.dataset.depth; d.style.transform=`translateY(${(t*k).toFixed(1)}px)`; });
+  /* ---------- play loops only while they are on screen ---------- */
+  const vids=$$('.card video');
+  if(reduce){ vids.forEach(v=>{ v.removeAttribute('autoplay'); v.pause(); }); }
+  else{
+    const io=new IntersectionObserver(es=>es.forEach(e=>{
+      const v=e.target;
+      if(e.isIntersecting){ if(v.preload==='none'){ v.preload='auto'; v.load(); } v.play().catch(()=>{}); }
+      else v.pause();
+    }),{rootMargin:'300px'});
+    vids.forEach(v=>io.observe(v));
   }
-  addEventListener('scroll',()=>{ if(!pTick){ requestAnimationFrame(()=>{parallax();pTick=false}); pTick=true; } },{passive:true}); parallax();
-  // play only visible loops
-  const vids=$$('video[autoplay]');
-  const io=new IntersectionObserver(es=>es.forEach(e=>{ const v=e.target; if(e.isIntersecting){ v.play().catch(()=>{}); } else v.pause(); }),{rootMargin:'240px'});
-  vids.forEach(v=>{ io.observe(v); v.addEventListener('canplay',()=>{ if(v.paused && v.getBoundingClientRect().top<innerHeight+240) v.play().catch(()=>{}); }); });
 
   /* ---------- count-up ---------- */
   const nums=$$('#stats [data-n]');
-  const io2=new IntersectionObserver(es=>es.forEach(e=>{ if(!e.isIntersecting) return; io2.unobserve(e.target); const el=e.target, target=parseFloat(el.dataset.n), dec=+(el.dataset.dec||0), t0=performance.now(), D=reduce?1:1600;
-    (function step(t){ const k=Math.min(1,(t-t0)/D), v=target*(1-Math.pow(1-k,3)); el.textContent=v.toFixed(dec); if(k<1) requestAnimationFrame(step); })(t0); }),{threshold:.5});
+  const io2=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return; io2.unobserve(e.target);
+    const el=e.target, to=parseFloat(el.dataset.n), dec=+(el.dataset.dec||0), t0=performance.now(), D=reduce?1:1600;
+    (function step(t){ const k=Math.min(1,(t-t0)/D), v=to*(1-Math.pow(1-k,3)); el.textContent=v.toFixed(dec); if(k<1) requestAnimationFrame(step); })(t0);
+  }),{threshold:.5});
   nums.forEach(n=>io2.observe(n));
 
 })();
