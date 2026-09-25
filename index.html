@@ -106,7 +106,9 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
    the painting behind stays crisp; it is the phone's screen that softens so the copy reads. */
 .glance .sharp{filter:saturate(.96)}
 .glance .sharp::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(165deg,rgba(232,238,231,.2),rgba(235,238,231,.08) 55%,rgba(226,233,228,.18))}
-.phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50%;max-width:250px;aspect-ratio:9/18.6;border-radius:13%/6.4%;z-index:2;
+/* sized off the card's HEIGHT, not its width: at narrow widths a width-based phone
+   grows taller than the card and gets clipped by the card's overflow:hidden */
+.phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:86%;width:auto;aspect-ratio:9/18.6;border-radius:13%/6.4%;z-index:2;
   box-shadow:0 0 0 2.5px #23262a,0 0 0 4px #6d7075,0 42px 66px -22px rgba(0,0,0,.6);overflow:hidden;background:#000}
 .phone .soft{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center;
   border-radius:inherit;filter:blur(9px) saturate(.9) brightness(.92);transform:scale(1.12)}
@@ -136,7 +138,7 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .catalogue b{display:block;font-weight:700;color:#5f5b54}
 .beyond{margin-top:clamp(46px,6vw,78px);text-align:center;font-family:var(--display);text-transform:uppercase;
   font-size:clamp(17px,2.2vw,30px);letter-spacing:.16em;line-height:1.5;color:#3a3630}
-@media (max-width:860px){.demo-grid{grid-template-columns:1fr}.glance{aspect-ratio:1/1}.hang-wrap{justify-items:stretch}}
+@media (max-width:860px){.demo-grid{grid-template-columns:1fr}.glance{aspect-ratio:1/1.15}.hang-wrap{justify-items:stretch}}
 
 /* demo modal */
 .modal{position:fixed;inset:0;z-index:90;background:rgba(10,12,12,.86);display:none;align-items:center;justify-content:center;padding:20px}
