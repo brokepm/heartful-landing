@@ -97,12 +97,13 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.6vw,34px);align-items:start}
 
 /* left: the painting, soft — sharp only where the phone reveals it */
-.glance{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.04;background:var(--pastel-sage);isolation:isolate}
-.glance .soft,.glance .sharp{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center}
+.glance{--pad:clamp(14px,2.1vw,26px);position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.04;background:var(--pastel-sage);isolation:isolate;
+  box-shadow:inset 0 0 0 1px rgba(28,26,23,.05)}
+.glance .soft,.glance .sharp{position:absolute;inset:var(--pad);border-radius:18px;overflow:hidden;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center}
 /* client: "the in-frame part is blurred, the part behind the phone is sharp" —
    the painting behind stays crisp; it is the phone's screen that softens so the copy reads. */
 .glance .sharp{filter:saturate(.96)}
-.glance .sharp::after{content:"";position:absolute;inset:0;background:linear-gradient(165deg,rgba(232,238,231,.2),rgba(235,238,231,.08) 55%,rgba(226,233,228,.18))}
+.glance .sharp::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(165deg,rgba(232,238,231,.2),rgba(235,238,231,.08) 55%,rgba(226,233,228,.18))}
 .phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:50%;max-width:250px;aspect-ratio:9/18.6;border-radius:13%/6.4%;z-index:2;
   box-shadow:0 0 0 2.5px #23262a,0 0 0 4px #6d7075,0 42px 66px -22px rgba(0,0,0,.6);overflow:hidden;background:#000}
 .phone .soft{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center;
@@ -114,17 +115,19 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .phone-copy b{font-weight:700}
 
 /* right: no bubble — the painting hangs on the page itself */
-.hang-wrap{padding-top:clamp(4px,1.6vw,22px);display:grid;gap:clamp(20px,2.4vw,30px);justify-items:start}
+.hang-wrap{display:grid;gap:clamp(14px,1.8vw,24px);justify-items:start;align-content:start}
 .hang{position:relative;width:100%}
-.frame{--bw:clamp(16px,2vw,30px);position:relative;background:#8a6a2e;
-  box-shadow:0 40px 60px -26px rgba(28,26,23,.5),0 14px 26px -12px rgba(28,26,23,.3),0 2px 5px rgba(28,26,23,.14)}
-.frame .art{position:relative;overflow:hidden;background:#8a6a2e;aspect-ratio:4/3.2}
-.frame .art img,.frame .art video{width:100%;height:100%;object-fit:cover}
-.frame.baroque{border:var(--bw) solid transparent;border-image:url('assets/web/frame_gold_wide.webp') 172 168 166 168 round}
-.frame.baroque .art{margin:calc(var(--bw) * -.3)}
+/* client: "same frame as meditation" — this IS the meditation's frame, cut out of the film
+   (first frame of the Cezanne meditation, silhouette masked, mirrored to close the right edge) */
+.medframe{position:relative;width:100%;aspect-ratio:1022/889;
+  filter:drop-shadow(0 26px 30px rgba(28,26,23,.32)) drop-shadow(0 7px 11px rgba(28,26,23,.20))}
+.medframe .art{position:absolute;left:14.58%;top:16.31%;width:70.84%;height:62.32%;overflow:hidden;background:#3e4a3c}
+.medframe .art img{width:100%;height:100%;object-fit:cover}
+.medframe .plate{position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:url('assets/web/frame_med.webp') center/100% 100% no-repeat}
 .drift img{animation:drift 30s ease-in-out infinite alternate;transform-origin:50% 50%}
 @keyframes drift{0%{transform:scale(1.03) translate(-.8%,0)}100%{transform:scale(1.09) translate(1%,-.8%)}}
-.enter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4}
+.enter{position:absolute;left:50%;top:47.5%;transform:translate(-50%,-50%);z-index:4}
 .enter .pill{background:rgba(255,255,255,.96);color:var(--ink);box-shadow:0 12px 32px -8px rgba(0,0,0,.55);letter-spacing:.02em}
 /* caption: left aligned, one detail per line, title bold, slightly light grey */
 .catalogue{font-family:var(--body);font-size:clamp(13px,1.15vw,15px);line-height:1.62;color:#7a766e;text-align:left}
@@ -136,7 +139,7 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 /* demo modal */
 .modal{position:fixed;inset:0;z-index:90;background:rgba(10,12,12,.86);display:none;align-items:center;justify-content:center;padding:20px}
 .modal.open{display:flex}
-.player{position:relative;width:min(380px,92vw);aspect-ratio:640/1138;border-radius:40px;overflow:hidden;background:#EFEBE1;box-shadow:0 0 0 3px #2a2a2c,0 0 0 4px #6a6a6e,0 40px 80px -20px rgba(0,0,0,.8)}
+.player{position:relative;width:min(380px,92vw);aspect-ratio:640/1140;border-radius:40px;overflow:hidden;background:#EFEBE1;box-shadow:0 0 0 3px #2a2a2c,0 0 0 4px #6a6a6e,0 40px 80px -20px rgba(0,0,0,.8)}
 .player video{width:100%;height:100%;object-fit:cover;background:#EFEBE1}
 .gate{position:absolute;inset:0;display:none;align-items:center;justify-content:center;text-align:center;padding:30px;background:rgba(36,50,44,.94);color:var(--cream);flex-direction:column;gap:18px}
 .gate.show{display:flex}
@@ -171,7 +174,7 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 /* ---------- 4. how it works ---------- */
 #how{background:var(--paper);padding-block:clamp(72px,10vw,130px)}
 .how-head{text-align:center;margin-bottom:clamp(36px,5vw,58px)}
-.how-head h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(30px,4.2vw,56px);letter-spacing:.09em;line-height:1.1;margin-bottom:14px}
+.how-head h2{font-family:var(--display);text-transform:none;font-size:clamp(30px,4.2vw,56px);letter-spacing:.015em;line-height:1.1;margin-bottom:14px}
 .how-head p{font-family:var(--body);font-size:clamp(15px,1.5vw,19px);color:var(--muted)}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,24px)}
 .card{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:3/4.32;background:#2b2b28;box-shadow:0 22px 44px -22px rgba(28,26,23,.45)}
@@ -273,8 +276,9 @@ footer a{color:inherit}
       <!-- right: no bubble — the painting hangs on the page itself -->
       <div class="hang-wrap">
         <div class="hang">
-          <div class="frame baroque drift">
+          <div class="medframe drift">
             <div class="art"><img src="assets/web/cezanne.jpg" alt="Paul Cézanne, Mont Sainte-Victoire and the Viaduct of the Arc River Valley"></div>
+            <div class="plate" aria-hidden="true"></div>
           </div>
           <div class="enter"><button class="pill" id="openDemo" type="button">Enter</button></div>
         </div>
@@ -338,10 +342,9 @@ footer a{color:inherit}
           <div class="said">“What we didn’t realise until we did these studies is just how powerful the effect on the brain is.”</div>
           <div class="who"><b>Semir Zeki</b>Neurobiologist<br>Prof. of Neuroaesthetics, UCL</div>
         </div>
-        <p>Scans measured the brains of individuals while they were shown images of paintings. According to the brain scans, “when you look at art… the blood flow increased for a beautiful painting just as it increases when you look at somebody you love.” Cortisol levels drop, and pleasure sensations measurably increase.</p>
+        <p>Scans measured the brains of individuals while they were shown images of paintings. According to the brain scans, “when you look at art… the blood flow increased for a beautiful painting just as it increases when you look at somebody you love.” Cortisol levels immediately drop, and pleasure sensations measurably increase.</p>
         <p class="ref">Ishizu, T. &amp; Zeki, S. (2011). <i>Toward a brain-based theory of beauty.</i> PLoS ONE 6(7).</p>
         <p class="ref">Zeki, S. (1999). <i>Inner Vision: An Exploration of Art and the Brain.</i> Oxford University Press.</p>
-        <p class="ref">Clow, A. &amp; Fredhoi, C. (2006). <i>Normalisation of salivary cortisol levels and self-report stress by a brief lunchtime visit to an art gallery.</i> Journal of Holistic Healthcare 3(2).</p>
       </div>
     </div>
   </div>
