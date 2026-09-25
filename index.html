@@ -57,7 +57,7 @@ h1,h2,h3{font-weight:400;text-wrap:balance}
 
 /* ---------- nav ---------- */
 nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(16px,3vw,32px);transition:background .45s ease,box-shadow .45s ease,color .45s ease}
-.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:inherit}
+.brand{display:flex;align-items:center;gap:11px;padding:9px 0;text-decoration:none;color:inherit}
 .brand .wordmark{display:block;width:clamp(124px,11.5vw,160px);aspect-ratio:3516/526;background-color:currentColor;
   -webkit-mask:var(--wordmark) no-repeat center/contain;mask:var(--wordmark) no-repeat center/contain}
 .mark{width:30px;height:30px;border-radius:7px;box-shadow:0 1px 4px rgba(0,0,0,.25)}
@@ -69,7 +69,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:cent
 nav.over-art{background:transparent;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.4)}
 nav.over-art .pill{background:rgba(255,255,255,.94);color:var(--ink);text-shadow:none}
 nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);color:var(--ink);box-shadow:0 1px 0 var(--line)}
-@media (max-width:860px){.nav-links{display:none}}
+/* below 860 the four links move into a panel behind the bar */
+.menu-btn{display:none;width:44px;height:44px;padding:0;border:0;background:none;color:inherit;cursor:pointer;
+  flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.menu-btn span{display:block;width:20px;height:1.5px;background:currentColor;border-radius:1px;
+  transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s ease}
+.menu-btn[aria-expanded="true"] span:first-child{transform:translateY(3.25px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] span:last-child{transform:translateY(-3.25px) rotate(-45deg)}
+.mobile-nav{position:fixed;left:0;right:0;top:0;z-index:-1;padding:74px 18px 18px;
+  background:color-mix(in srgb,var(--paper) 99%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);box-shadow:0 18px 30px -22px rgba(28,26,23,.55);
+  transform:translateY(-101%);opacity:0;pointer-events:none;
+  transition:transform .34s cubic-bezier(.4,0,.2,1),opacity .26s ease}
+.mobile-nav.open{transform:none;opacity:1;pointer-events:auto}
+.mobile-nav a{display:block;padding:15px 4px;border-top:1px solid var(--line);text-decoration:none;
+  font-family:var(--body);font-size:17px;color:var(--ink)}
+.mobile-nav a:first-child{border-top:0}
+@media (min-width:861px){.mobile-nav{display:none}}
+@media (max-width:860px){
+  .nav-links{display:none}
+  .menu-btn{display:flex}
+  nav{padding:12px 16px}
+  .nav-right{gap:8px}
+  .brand .wordmark{width:clamp(88px,24vw,120px)}
+  .mark{width:26px;height:26px;border-radius:6px}
+  .pill{font-size:13px;padding:14px clamp(13px,4vw,20px)}
+}
 
 /* ---------- 1. hero: one continuous loop, words scroll through ----------
    The painting never moves with the scroll — only the words do. */
@@ -77,8 +102,9 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .stage{position:sticky;top:0;height:100svh;min-height:520px;overflow:hidden;background:#0f1214}
 .stage .media{position:absolute;inset:0}
 .stage .media video,.stage .media img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.stage .media picture{position:absolute;inset:0}
 .stage .media img{position:absolute;inset:0}
-.stage.playing .media img{opacity:0;transition:opacity .6s ease}
+.stage.playing .media picture{opacity:0;transition:opacity .6s ease}
 .stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 50% 48%,rgba(0,0,0,.26),transparent 72%)}
 .hero-text{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 6vw;pointer-events:none;z-index:2}
 .hero-text h1{position:absolute;left:0;right:0;padding:0 6vw;color:#fff;font-family:var(--display);font-weight:400;font-size:clamp(22px,3.5vw,46px);line-height:1.2;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 2px 30px rgba(0,0,0,.55);opacity:0;will-change:opacity,transform}
@@ -138,6 +164,11 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .catalogue b{display:block;font-weight:700;color:#5f5b54}
 .beyond{margin-top:clamp(46px,6vw,78px);text-align:center;font-family:var(--display);text-transform:uppercase;
   font-size:clamp(17px,2.2vw,30px);letter-spacing:.16em;line-height:1.5;color:#3a3630}
+/* on a phone the credit wraps to two lines and runs into the scroll hint */
+@media (max-width:700px){
+  .scroll-hint{bottom:54px}
+  .credit{bottom:13px;font-size:9.5px;line-height:1.5;text-align:center}
+}
 @media (max-width:860px){.demo-grid{grid-template-columns:1fr}.glance{aspect-ratio:1/1.15}.hang-wrap{justify-items:stretch}}
 
 /* demo modal */
@@ -159,7 +190,7 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .stat .n sup{font-size:.42em;vertical-align:top;top:.35em;position:relative;letter-spacing:.04em;margin-left:2px}
 .stat .n .unit{font-size:.34em;letter-spacing:.12em;margin-left:8px}
 .stat p{font-family:var(--body);font-size:14.5px;font-weight:400;letter-spacing:0;line-height:1.6;max-width:31ch;margin:16px auto 18px;color:#2b2b2b}
-.stat .src{display:inline-flex;align-items:center;gap:6px;font-family:var(--body);font-size:12.5px;letter-spacing:.02em;text-decoration:none;padding:9px 18px;border-radius:999px;border:1.5px solid #000;color:#000;transition:background .2s,color .2s}
+.stat .src{display:inline-flex;align-items:center;gap:6px;font-family:var(--body);font-size:12.5px;letter-spacing:.02em;text-decoration:none;padding:12px 20px;border-radius:999px;border:1.5px solid #000;color:#000;transition:background .2s,color .2s}
 .stat .src:hover{background:#000;color:#fff}
 .sci-body{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,5vw,72px);align-items:center}
 .sci-fig{margin:0}
@@ -218,7 +249,7 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 @media (max-width:860px){.join-in{grid-template-columns:1fr}}
 
 footer{background:var(--cream);padding:36px 0 70px;font-family:var(--body);font-size:12px;color:var(--muted);line-height:1.85;text-align:center}
-footer a{color:inherit}
+footer a{color:inherit;display:inline-block;padding:7px 2px}
 </style>
 
 <nav id="nav" class="over-art">
@@ -231,6 +262,15 @@ footer a{color:inherit}
       <a href="#why">Why art meditation</a>
     </div>
     <a class="pill" href="#join">Join the waitlist</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobileNav">
+      <span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#demo">Try the demo</a>
+    <a href="#science">Science and art</a>
+    <a href="#how">How it works</a>
+    <a href="#why">Why art meditation</a>
   </div>
 </nav>
 
@@ -238,11 +278,25 @@ footer a{color:inherit}
 <section id="intro" aria-label="Introduction">
   <div class="stage" id="stage">
     <div class="media">
-      <video id="heroVideo" poster="assets/hero/hero_loop.jpg" muted loop playsinline autoplay preload="auto" aria-hidden="true">
-        <source src="assets/hero/hero_loop.webm" type="video/webm">
-        <source src="assets/hero/hero_loop.mp4" type="video/mp4">
-      </video>
-      <img src="assets/hero/hero_loop.jpg" alt="Claude Monet, The Water Lily Pond — the surface of the pond, moving">
+      <video id="heroVideo" muted loop playsinline autoplay preload="auto" aria-hidden="true"></video>
+      <script>
+      /* The sources are attached here rather than written into the markup so a phone never
+         starts fetching the full-size pair first. Inline and immediately after the element,
+         so nothing has begun loading yet. No JS: the still below stands in. */
+      (function(){
+        var v = document.currentScript.previousElementSibling;
+        var small = matchMedia('(max-width: 760px)').matches;
+        v.poster = small ? 'assets/hero/hero_loop_sm.jpg' : 'assets/hero/hero_loop.jpg';
+        (small ? [['assets/hero/hero_loop_sm.webm','video/webm'], ['assets/hero/hero_loop_sm.mp4','video/mp4']]
+               : [['assets/hero/hero_loop.webm','video/webm'],    ['assets/hero/hero_loop.mp4','video/mp4']]
+        ).forEach(function(p){ var s=document.createElement('source'); s.src=p[0]; s.type=p[1]; v.appendChild(s); });
+        v.load();
+      })();
+      </script>
+      <picture>
+        <source media="(max-width: 760px)" srcset="assets/hero/hero_loop_sm.jpg">
+        <img src="assets/hero/hero_loop.jpg" alt="Claude Monet, The Water Lily Pond — the surface of the pond, moving">
+      </picture>
     </div>
     <div class="hero-text" id="heroText">
       <h1 data-i="0"><span class="word" role="img" aria-label="Heartful"></span>The first art meditation app</h1>
@@ -438,11 +492,28 @@ footer a{color:inherit}
 
   /* ---------- nav ---------- */
   const nav=$('#nav'), intro=$('#intro');
+  const menuBtn=$('#menuBtn'), mobileNav=$('#mobileNav');
+  let menuOpen=false;
   function navState(){
+    // while the panel is down the bar always reads as a banner, or the white
+    // wordmark would sit on the panel's light background and vanish
+    if(menuOpen){ nav.className='banner'; return; }
     const stageEnd=intro.offsetTop+intro.offsetHeight-innerHeight;
     nav.className = scrollY < stageEnd-40 ? 'over-art' : 'banner';
   }
   addEventListener('scroll',navState,{passive:true}); navState();
+
+  function setMenu(open){
+    menuOpen=open;
+    mobileNav.classList.toggle('open',open);
+    menuBtn.setAttribute('aria-expanded',open?'true':'false');
+    navState();
+  }
+  menuBtn.addEventListener('click',e=>{ e.stopPropagation(); setMenu(!menuOpen); });
+  mobileNav.addEventListener('click',e=>{ if(e.target.tagName==='A') setMenu(false); });
+  addEventListener('click',e=>{ if(menuOpen && !nav.contains(e.target)) setMenu(false); });
+  addEventListener('keydown',e=>{ if(e.key==='Escape' && menuOpen) setMenu(false); });
+  addEventListener('resize',()=>{ if(menuOpen && innerWidth>860) setMenu(false); });
 
   /* ---------- hero ----------
      The scene is a continuous loop and is never touched by the scroll. Only the three lines move:
