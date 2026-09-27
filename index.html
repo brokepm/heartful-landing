@@ -125,21 +125,22 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.6vw,34px);align-items:start}
 
 /* left: the painting, soft — sharp only where the phone reveals it */
-.glance{--pad:clamp(14px,2.1vw,26px);position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.04;background:var(--pastel-sage);isolation:isolate;
-  box-shadow:inset 0 0 0 1px rgba(28,26,23,.05)}
-.glance .soft,.glance .sharp{position:absolute;inset:var(--pad);border-radius:18px;overflow:hidden;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center}
+/* client: no border around the painting, and its own top and bottom edges must not show,
+   so the artwork bleeds past the box on every side */
+.glance{position:relative;border-radius:30px;overflow:hidden;aspect-ratio:1/1.04;background:#3e4a3c;isolation:isolate}
+.glance .soft,.glance .sharp{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center;transform:scale(1.08)}
 /* client: "the in-frame part is blurred, the part behind the phone is sharp" —
    the painting behind stays crisp; it is the phone's screen that softens so the copy reads. */
 .glance .sharp{filter:saturate(.96)}
-.glance .sharp::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(165deg,rgba(232,238,231,.2),rgba(235,238,231,.08) 55%,rgba(226,233,228,.18))}
+.glance .sharp::after{content:"";position:absolute;inset:0;background:linear-gradient(165deg,rgba(232,238,231,.2),rgba(235,238,231,.08) 55%,rgba(226,233,228,.18))}
 /* sized off the card's HEIGHT, not its width: at narrow widths a width-based phone
    grows taller than the card and gets clipped by the card's overflow:hidden */
 .phone{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:86%;width:auto;aspect-ratio:9/18.6;border-radius:13%/6.4%;z-index:2;
   box-shadow:0 0 0 2.5px #23262a,0 0 0 4px #6d7075,0 42px 66px -22px rgba(0,0,0,.6);overflow:hidden;background:#000}
 .phone .soft{position:absolute;inset:0;background-image:url('assets/web/cezanne.jpg');background-size:cover;background-position:center;
-  border-radius:inherit;filter:blur(9px) saturate(.9) brightness(.92);transform:scale(1.12)}
+  border-radius:inherit;filter:blur(4.5px) saturate(.95) brightness(1.0);transform:scale(1.10)}
 .phone .notch{position:absolute;left:50%;top:1.4%;transform:translateX(-50%);width:34%;height:3.1%;border-radius:999px;background:#0c0d0f;z-index:3}
-.phone .veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(14,20,16,.3) 0%,rgba(14,20,16,.42) 45%,rgba(14,20,16,.34) 100%)}
+.phone .veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(14,20,16,.17) 0%,rgba(14,20,16,.27) 45%,rgba(14,20,16,.21) 100%)}
 .phone-copy{position:absolute;left:0;right:0;top:27%;z-index:4;padding:0 11%;color:#fff;display:grid;gap:1.15em;
   font-family:var(--body);font-size:clamp(11px,1.12vw,14px);line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)}
 .phone-copy b{font-weight:700}
@@ -214,10 +215,11 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,24px)}
 .card{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:3/4.32;background:#2b2b28;box-shadow:0 22px 44px -22px rgba(28,26,23,.45)}
 .card video,.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.1) 38%,rgba(0,0,0,0) 62%)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.42) 34%,rgba(0,0,0,.12) 62%,rgba(0,0,0,0) 86%)}
 .card .cap{position:absolute;left:0;right:0;top:0;z-index:2;padding:clamp(18px,2vw,28px);color:#fff;font-family:var(--body);text-shadow:0 1px 12px rgba(0,0,0,.55)}
 .card .cap .k{font-size:clamp(15px,1.5vw,19px);opacity:.92;margin-bottom:4px;letter-spacing:.02em}
 .card .cap .t{font-size:clamp(16px,1.6vw,21px);line-height:1.28}
+.card .cap p{margin-top:11px;font-size:clamp(12.5px,1.05vw,14px);line-height:1.55;color:rgba(255,255,255,.92)}
 @media (max-width:760px){.cards{grid-template-columns:1fr}.card{aspect-ratio:3/2.1}.card::after{background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,0) 70%)}}
 
 /* ---------- 5. why art meditation ---------- */
@@ -357,7 +359,7 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
       </div>
 
     </div>
-    <p class="beyond">Go beyond mindfulness. Into a deeper Heartfulness.</p>
+    <p class="beyond">Go beyond mindfulness.<br>Into a deeper Heartfulness.</p>
   </div>
 </section>
 
@@ -425,15 +427,15 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
     <div class="cards">
       <article class="card">
         <video src="assets/how/how_01_hokusai.mp4" poster="assets/how/how_01_hokusai.jpg" muted loop playsinline autoplay preload="none"></video>
-        <div class="cap"><div class="k">01</div><div class="t">Wander our galleries</div></div>
+        <div class="cap"><div class="k">01</div><div class="t">Wander our galleries</div><p>Explore a collection of pieces curated by our team of art historians from Oxford University, Sotheby’s and Christie’s. From Monet to Titian to Hokusai, each piece is chosen for its meditative depth and unique message.</p></div>
       </article>
       <article class="card">
         <video src="assets/how/how_02_renoir.mp4" poster="assets/how/how_02_renoir.jpg" muted loop playsinline autoplay preload="none"></video>
-        <div class="cap"><div class="k">02</div><div class="t">Enrich and hone your personal taste</div></div>
+        <div class="cap"><div class="k">02</div><div class="t">Enrich and hone your personal taste</div><p>A short primer reveals hidden details and stories about the artwork. Offered as guided, bite-sized enrichments, curated knowledge opens the door to the full experience. You get to know the space and story, just before you enter it.</p></div>
       </article>
       <article class="card">
         <video src="assets/how/how_03_friedrich.mp4" poster="assets/how/how_03_friedrich.jpg" muted loop playsinline autoplay preload="none"></video>
-        <div class="cap"><div class="k">03</div><div class="t">Meditate inside the artwork</div></div>
+        <div class="cap"><div class="k">03</div><div class="t">Meditate inside the artwork</div><p>The sights and sounds of the painting come alive, and you are led into an immersive guided meditation. Bask in the artwork’s unique story and sensation. The gems you find in this little world are yours to keep.</p></div>
       </article>
     </div>
   </div>
@@ -444,7 +446,7 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
   <div class="wrap why-grid">
     <div class="why-text">
       <h2>Why art meditation?</h2>
-      <p>Art is human stories. It is empathy. Works made by real people trying to express real feelings, emotions, and experiences. By curating you a personalised selection of artworks, our immersive meditations have the unique capacity to understand you on a profound level. It taps into a universal human experience. Through art, we introduce a narrative <b>variety and emotional depth unseen in traditional mindfulness.</b></p>
+      <p>Art is human stories. It is empathy. Works made by real people trying to express real feelings, emotions, and experiences. By curating you a personalised selection of artworks, our immersive meditations have the unique capacity to understand you on a profound level. It taps into a universal human experience. Through art, we introduce a <b>narrative variety and emotional depth unseen in traditional mindfulness.</b></p>
       <a class="pill light" href="#join">Join the waitlist</a>
     </div>
     <ul class="feels" aria-label="What you might be feeling, and where Heartful takes you">
