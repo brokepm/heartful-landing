@@ -249,8 +249,10 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .join-in{position:relative;z-index:1;width:100%;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:end;padding-block:60px 70px}
 .join-in h2{font-family:var(--display);font-size:clamp(34px,5vw,68px);line-height:1.08;text-transform:uppercase;letter-spacing:.07em;text-shadow:0 2px 26px rgba(0,0,0,.45)}
 .join-in .sub{font-family:var(--body);font-size:14.5px;margin-top:16px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
-.join-in .fine{font-family:var(--body);font-size:12px;opacity:.85;margin-top:12px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.join-in .fine{font-family:var(--body);font-size:12px;opacity:.85;margin-top:12px;max-width:420px;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.join-in .fine a{color:inherit;white-space:nowrap;text-decoration:underline;text-underline-offset:2px}
 .wait{display:flex;gap:10px;flex-wrap:wrap}
+.wait[hidden]{display:none}
 .wait input{flex:1;min-width:200px;border-radius:999px;border:0;padding:13px 18px;font:inherit;font-family:var(--body);font-size:14px}
 .wait input[name="_honey"]{position:absolute;left:-9999px;width:1px;height:1px;min-width:0;opacity:0;pointer-events:none}
 .joined{font-family:var(--body);font-size:15px;line-height:1.5;padding:14px 20px;border-radius:18px;
@@ -486,8 +488,8 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
         <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
         <button class="pill light" type="submit">Join the waitlist</button>
       </form>
-      <div class="joined" id="joined" hidden>Thank you — you’re on the list. We’ll write when Heartful opens.</div>
-      <div class="fine" id="waitFine">Be first in line when Heartful arrives. No spam, ever.</div>
+      <div class="joined" id="joined" hidden>Thank you — you’re on the list. We’ll write when Heartful opens, and now and then after that. Unsubscribe anytime.</div>
+      <div class="fine" id="waitFine">You’ll get launch news, early access, and occasional emails from Heartful about art and meditation. Unsubscribe anytime. <a href="privacy.html">Privacy Policy</a></div>
     </div>
   </div>
 </section>
