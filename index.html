@@ -196,16 +196,17 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .sci-body{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(28px,5vw,72px);align-items:center}
 .sci-fig{margin:0}
 .sci-fig figcaption{margin-top:12px;font-family:var(--body);font-size:11.5px;line-height:1.55;color:#80807d}
-.sci-img{border-radius:26px;overflow:hidden;aspect-ratio:4/5;position:relative;background:#eee}
+.sci-img{border-radius:26px;overflow:hidden;aspect-ratio:3/4;position:relative;background:#eee}
 .sci-img img{width:100%;height:100%;object-fit:cover}
-.sci-text h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(23px,2.9vw,38px);line-height:1.22;letter-spacing:.055em;margin-bottom:30px}
+.sci-text h2{font-family:var(--body);font-weight:700;font-size:clamp(26px,2.9vw,38px);line-height:1.22;letter-spacing:0;color:#111;margin-bottom:30px;text-wrap:balance}
 .sci-quote{margin-bottom:26px}
 .sci-quote .said{font-family:var(--body);font-size:clamp(17px,1.65vw,21px);line-height:1.5;color:#111;margin-bottom:14px}
 .sci-quote .who{font-family:var(--body);font-size:14px;line-height:1.5;color:#555}
 .sci-quote .who b{display:block;font-weight:700;color:#111}
 .sci-text p{font-family:var(--body);font-size:15.5px;line-height:1.72;color:#242424;max-width:58ch;margin-bottom:22px}
 .sci-text .ref{font-size:12.5px;color:#6b6b6b;line-height:1.6;margin-bottom:8px;max-width:52ch}
-@media (max-width:860px){.stats{grid-template-columns:1fr;gap:44px}.sci-body{grid-template-columns:1fr}.sci-img{aspect-ratio:4/3}}
+@media (max-width:860px){.stats{grid-template-columns:1fr;gap:44px}.sci-body{grid-template-columns:1fr}}
+@media (max-width:760px){.sci-quote{display:none}}
 
 /* ---------- 4. how it works ---------- */
 #how{background:var(--paper);padding-block:clamp(72px,10vw,130px)}
@@ -219,8 +220,15 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .card .cap{position:absolute;left:0;right:0;top:0;z-index:2;padding:clamp(18px,2vw,28px);color:#fff;font-family:var(--body);text-shadow:0 1px 12px rgba(0,0,0,.55)}
 .card .cap .k{font-size:clamp(15px,1.5vw,19px);opacity:.92;margin-bottom:4px;letter-spacing:.02em}
 .card .cap .t{font-size:clamp(16px,1.6vw,21px);line-height:1.28}
-.card .cap p{margin-top:11px;font-size:clamp(12.5px,1.05vw,14px);line-height:1.55;color:rgba(255,255,255,.92)}
-@media (max-width:760px){.cards{grid-template-columns:1fr}.card{aspect-ratio:3/2.1}.card::after{background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,0) 70%)}}
+.card .cap p{margin-top:11px;font-size:clamp(12.5px,1.05vw,14px);line-height:1.55;color:rgba(255,255,255,.92);text-wrap:pretty}
+@media (max-width:760px){.cards{grid-template-columns:1fr}
+  /* phones: the text sets the card's height and fills about three quarters of it */
+  .card{aspect-ratio:auto}
+  .card::after{background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.2) 80%,rgba(0,0,0,.05) 100%)}
+  .card .cap{position:relative;padding:24px 18px calc(24px + 17vw)}
+  .card .cap .k{font-size:20px}
+  .card .cap .t{font-size:clamp(23px,6.4vw,27px);line-height:1.22}
+  .card .cap p{margin-top:12px;font-size:clamp(15.5px,4.4vw,18px);line-height:1.55;text-align:justify;hyphens:auto;-webkit-hyphens:auto;hyphenate-limit-chars:8 4 4;-webkit-hyphenate-limit-before:4;-webkit-hyphenate-limit-after:4}}
 
 /* ---------- 5. why art meditation ---------- */
 #why{background:#111311;color:#f2efe8;padding-block:clamp(72px,10vw,130px)}
@@ -401,9 +409,9 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
     <div class="sci-body">
       <figure class="sci-fig">
         <div class="sci-img">
-          <img src="assets/web/science_art.jpg" alt="James McNeill Whistler, Violet and Silver — The Deep Sea: bands of teal sky, violet cloud and deep blue-green water">
+          <img src="assets/web/whistler_rocket.jpg" alt="James McNeill Whistler, Nocturne in Black and Gold — The Falling Rocket: gold sparks drifting down through a smoky night sky over dark water and a few small figures">
         </div>
-        <figcaption>James McNeill Whistler, <i>Violet and Silver — The Deep Sea</i>, 1893 · Art Institute of Chicago · CC0</figcaption>
+        <figcaption>James McNeill Whistler, <i>Nocturne in Black and Gold — The Falling Rocket</i>, c. 1875 · Detroit Institute of Arts · Public domain, via Wikimedia Commons</figcaption>
       </figure>
       <div class="sci-text">
         <h2>Art engagement measurably heals the body and rejuvenates the nervous system</h2>
@@ -429,7 +437,7 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
     <div class="cards">
       <article class="card">
         <video src="assets/how/how_01_hokusai.mp4" poster="assets/how/how_01_hokusai.jpg" muted loop playsinline autoplay preload="none"></video>
-        <div class="cap"><div class="k">01</div><div class="t">Wander our galleries</div><p>Explore a collection of pieces curated by our team of art historians from Oxford University, Sotheby’s and Christie’s. From Monet to Titian to Hokusai, each piece is chosen for its meditative depth and unique message.</p></div>
+        <div class="cap"><div class="k">01</div><div class="t">Wander our galleries</div><p>Explore a collection of pieces curated by our team of art his&shy;tor&shy;ians from Oxford Uni&shy;ver&shy;sity, Sotheby’s and Christie’s. From Monet to Titian to Hokusai, each piece is chosen for its medi&shy;ta&shy;tive depth and unique message.</p></div>
       </article>
       <article class="card">
         <video src="assets/how/how_02_renoir.mp4" poster="assets/how/how_02_renoir.jpg" muted loop playsinline autoplay preload="none"></video>
