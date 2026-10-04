@@ -226,6 +226,8 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
   .card{aspect-ratio:auto}
   .card::after{background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.45) 55%,rgba(0,0,0,.2) 80%,rgba(0,0,0,.05) 100%)}
   .card .cap{position:relative;padding:24px 18px calc(24px + 17vw)}
+  /* card 03 moves in its branches, at the top of the frame: keep them in view */
+  .card:nth-child(3) video,.card:nth-child(3) img{object-position:50% 22%}
   .card .cap .k{font-size:20px}
   .card .cap .t{font-size:clamp(23px,6.4vw,27px);line-height:1.22}
   .card .cap p{margin-top:12px;font-size:clamp(15.5px,4.4vw,18px);line-height:1.55;text-align:justify;hyphens:auto;-webkit-hyphens:auto;hyphenate-limit-chars:8 4 4;-webkit-hyphenate-limit-before:4;-webkit-hyphenate-limit-after:4}}
