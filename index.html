@@ -103,6 +103,9 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .stage .media{position:absolute;inset:0}
 .stage .media video,.stage .media img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
 .stage .media picture{position:absolute;inset:0}
+/* phones see a quarter of the width; the middle is all water and reads as a real pond.
+   Jack, Edits-12 p1: shift right so the lilies show */
+@media (max-width:760px){.stage .media video,.stage .media img{object-position:82% 50%}}
 .stage .media img{position:absolute;inset:0}
 .stage.playing .media picture{opacity:0;transition:opacity .6s ease}
 .stage::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 70% 55% at 50% 48%,rgba(0,0,0,.26),transparent 72%)}
@@ -122,6 +125,14 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 /* client: title "not that much smaller than subtext below" */
 .demo-head .kicker{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:clamp(22px,2.5vw,32px);line-height:1.2;color:var(--ink);margin-bottom:14px}
 .demo-head h2{font-family:var(--body);font-weight:400;font-size:clamp(26px,3.3vw,42px);line-height:1.22;letter-spacing:-.005em;color:#2a2722}
+/* the break only applies on phones */
+.demo-head .kicker br{display:none}
+/* phones: Jack, Edits-12 p2 - the title is the big line, two lines, and the line under it
+   sits at the Villa d'Este proportion (title about 2.2x the text beneath) */
+@media (max-width:760px){
+  .demo-head .kicker{font-size:clamp(28px,8.4vw,36px);line-height:1.15;letter-spacing:.1em;margin-bottom:16px}
+  .demo-head .kicker br{display:block}
+  .demo-head h2{font-size:clamp(15px,4.1vw,17px);line-height:1.55;color:#55514a}}
 .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,2.6vw,34px);align-items:start}
 
 /* left: the painting, soft — sharp only where the phone reveals it */
@@ -141,9 +152,13 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
   border-radius:inherit;filter:blur(4.5px) saturate(.95) brightness(1.0);transform:scale(1.10)}
 .phone .notch{position:absolute;left:50%;top:1.4%;transform:translateX(-50%);width:34%;height:3.1%;border-radius:999px;background:#0c0d0f;z-index:3}
 .phone .veil{position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(14,20,16,.17) 0%,rgba(14,20,16,.27) 45%,rgba(14,20,16,.21) 100%)}
-.phone-copy{position:absolute;left:0;right:0;top:27%;z-index:4;padding:0 11%;color:#fff;display:grid;gap:1.15em;
-  font-family:var(--body);font-size:clamp(11px,1.12vw,14px);line-height:1.5;text-shadow:0 1px 10px rgba(0,0,0,.6)}
-.phone-copy b{font-weight:700}
+/* Jack, Edits-12 p3: words fill the phone (sized off its width, so the proportion holds at
+   every size), the titles' display face, highlights pink italic instead of bold.
+   He named Larken; the display face stands in until a Larken web licence exists. */
+.phone{container-type:size}
+.phone-copy{position:absolute;left:0;right:0;top:16%;z-index:4;padding:0 10%;color:#fff;display:grid;gap:1.5em;
+  font-family:var(--display);font-size:9.8cqw;line-height:1.28;letter-spacing:.005em;text-shadow:0 1px 12px rgba(0,0,0,.55)}
+.phone-copy em{font-style:italic;color:#ffb8e1}
 
 /* right: no bubble — the painting hangs on the page itself */
 .hang-wrap{display:grid;gap:clamp(14px,1.8vw,24px);justify-items:start;align-content:start}
@@ -198,7 +213,9 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 .sci-fig figcaption{margin-top:12px;font-family:var(--body);font-size:11.5px;line-height:1.55;color:#80807d}
 .sci-img{border-radius:26px;overflow:hidden;aspect-ratio:3/4;position:relative;background:#eee}
 .sci-img img{width:100%;height:100%;object-fit:cover}
-.sci-text h2{font-family:var(--body);font-weight:700;font-size:clamp(26px,2.9vw,38px);line-height:1.22;letter-spacing:0;color:#111;margin-bottom:30px;text-wrap:balance}
+.sci-text h2{font-family:var(--display);font-weight:400;font-size:clamp(32px,3vw,42px);line-height:1.18;letter-spacing:.01em;color:#111;margin-bottom:28px;text-wrap:balance}
+.sci-text .attr{font-size:14px;line-height:1.55;color:#555;margin-top:-6px}
+@media (min-width:761px){.sci-text .attr{display:none}}
 .sci-quote{margin-bottom:26px}
 .sci-quote .said{font-family:var(--body);font-size:clamp(17px,1.65vw,21px);line-height:1.5;color:#111;margin-bottom:14px}
 .sci-quote .who{font-family:var(--body);font-size:14px;line-height:1.5;color:#555}
@@ -211,8 +228,8 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
 /* ---------- 4. how it works ---------- */
 #how{background:var(--paper);padding-block:clamp(72px,10vw,130px)}
 .how-head{text-align:center;margin-bottom:clamp(36px,5vw,58px)}
-.how-head h2{font-family:var(--display);text-transform:none;font-size:clamp(30px,4.2vw,56px);letter-spacing:.015em;line-height:1.1;margin-bottom:14px}
-.how-head p{font-family:var(--body);font-size:clamp(15px,1.5vw,19px);color:var(--muted)}
+.how-head h2{font-family:var(--display);text-transform:uppercase;font-size:clamp(36px,4.2vw,56px);letter-spacing:.08em;line-height:1.1;margin-bottom:14px}
+.how-head p{font-family:var(--body);font-size:clamp(15px,1.5vw,19px);color:var(--muted);text-wrap:balance;max-width:34em;margin-inline:auto}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,24px)}
 .card{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:3/4.32;background:#2b2b28;box-shadow:0 22px 44px -22px rgba(28,26,23,.45)}
 .card video,.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
@@ -228,9 +245,9 @@ nav.banner{background:color-mix(in srgb,var(--paper) 90%,transparent);backdrop-f
   .card .cap{position:relative;padding:24px 18px calc(24px + 17vw)}
   /* card 03 moves in its branches, at the top of the frame: keep them in view */
   .card:nth-child(3) video,.card:nth-child(3) img{object-position:50% 22%}
-  .card .cap .k{font-size:20px}
-  .card .cap .t{font-size:clamp(23px,6.4vw,27px);line-height:1.22}
-  .card .cap p{margin-top:12px;font-size:clamp(15.5px,4.4vw,18px);line-height:1.55;text-align:justify;hyphens:auto;-webkit-hyphens:auto;hyphenate-limit-chars:8 4 4;-webkit-hyphenate-limit-before:4;-webkit-hyphenate-limit-after:4}}
+  .card .cap .k{font-size:17px}
+  .card .cap .t{font-size:clamp(20px,5.6vw,23px);line-height:1.22}
+  .card .cap p{margin-top:11px;font-size:clamp(14px,3.85vw,16px);line-height:1.55}}
 
 /* ---------- 5. why art meditation ---------- */
 #why{background:#111311;color:#f2efe8;padding-block:clamp(72px,10vw,130px)}
@@ -333,7 +350,7 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
 <section id="demo">
   <div class="wrap">
     <div class="demo-head">
-      <div class="kicker">What we do at Heartful</div>
+      <div class="kicker">What we do<br> at Heartful</div>
       <h2>Immersive guided meditations, inside the world’s great masterpieces</h2>
     </div>
     <div class="demo-grid">
@@ -346,8 +363,8 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
           <div class="veil" aria-hidden="true"></div>
           <div class="notch" aria-hidden="true"></div>
           <div class="phone-copy">
-            <div>Designed using <b>art psychology</b> research to calm and nourish</div>
-            <div>Where masterpieces become your <b>multi-sensory</b> sanctuary</div>
+            <div>Designed using <em>art psychology</em> research to calm&nbsp;and&nbsp;nourish</div>
+            <div>Where masterpieces become your <em>multi-sensory sanctuary</em></div>
           </div>
         </div>
       </div>
@@ -419,9 +436,10 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
         <h2>Art engagement measurably heals the body and rejuvenates the nervous system</h2>
         <div class="sci-quote">
           <div class="said">“What we didn’t realise until we did these studies is just how powerful the effect on the brain is.”</div>
-          <div class="who"><b>Semir Zeki</b>Neurobiologist<br>Prof. of Neuroaesthetics, UCL</div>
+          <div class="who"><b>Semir Zeki</b>French-British Neuroscientist<br>Professor of Neuroaesthetics at UCL</div>
         </div>
         <p>Scans measured the brains of individuals while they were shown images of paintings. According to the brain scans, “when you look at art… the blood flow increased for a beautiful painting just as it increases when you look at somebody you love.” Cortisol levels immediately drop, and pleasure sensations measurably increase.</p>
+        <p class="attr">Semir Zeki, French-British Neuroscientist &amp; Professor of Neuroaesthetics at UCL</p>
         <p class="ref">Ishizu, T. &amp; Zeki, S. (2011). <i>Toward a brain-based theory of beauty.</i> PLoS ONE 6(7).</p>
         <p class="ref">Zeki, S. (1999). <i>Inner Vision: An Exploration of Art and the Brain.</i> Oxford University Press.</p>
       </div>
@@ -439,7 +457,7 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
     <div class="cards">
       <article class="card">
         <video src="assets/how/how_01_hokusai.mp4" poster="assets/how/how_01_hokusai.jpg" muted loop playsinline autoplay preload="none"></video>
-        <div class="cap"><div class="k">01</div><div class="t">Wander our galleries</div><p>Explore a collection of pieces curated by our team of art his&shy;tor&shy;ians from Oxford Uni&shy;ver&shy;sity, Sotheby’s and Christie’s. From Monet to Titian to Hokusai, each piece is chosen for its medi&shy;ta&shy;tive depth and unique message.</p></div>
+        <div class="cap"><div class="k">01</div><div class="t">Wander our galleries</div><p>Explore a collection of pieces curated by our team of art historians from Oxford University, Sotheby’s and Christie’s. From Monet to Titian to Hokusai, each piece is chosen for its meditative depth and unique message.</p></div>
       </article>
       <article class="card">
         <video src="assets/how/how_02_renoir.mp4" poster="assets/how/how_02_renoir.jpg" muted loop playsinline autoplay preload="none"></video>
@@ -555,9 +573,11 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
     const kick=()=>hero.play().then(lit).catch(()=>{});
     kick(); addEventListener('click',kick,{once:true}); addEventListener('touchstart',kick,{once:true,passive:true});
   } else if(hero){ hero.removeAttribute('autoplay'); hero.pause(); }
-  // bands are [in, hold-start, hold-end, out] as a fraction of the hero's scroll length
-  const BANDS=[[0,0,.20,.28],[.30,.38,.54,.62],[.64,.72,.92,1]];
-  const TRAVEL=46;
+  // bands are [in, hold-start, hold-end, out] as a fraction of the hero's scroll length.
+  // Each line fades with a short drift. The 46px roll-through it replaced read as a wheel
+  // turning (Jack, Edits-12 p1); this is the crossfade the earlier desktop version had.
+  const BANDS=[[0,0,.22,.31],[.33,.42,.56,.65],[.67,.76,.94,1]];
+  const TRAVEL=12;
   function overlays(p){
     texts.forEach((t,i)=>{
       const [a,b,c,d]=BANDS[i];
@@ -577,7 +597,7 @@ footer a{color:inherit;display:inline-block;padding:7px 2px}
   function tick(){
     const d=target-cur;
     if(Math.abs(d)<0.0004){ cur=target; overlays(cur); running=false; return; }
-    cur+=d*(reduce?1:0.16); overlays(cur); requestAnimationFrame(tick);
+    cur+=d*(reduce?1:0.3); overlays(cur); requestAnimationFrame(tick);   // 0.16 lagged behind the finger
   }
   function onScroll(){ target=pNow(); if(!running){ running=true; requestAnimationFrame(tick); } }
   addEventListener('scroll',onScroll,{passive:true}); addEventListener('resize',onScroll);
